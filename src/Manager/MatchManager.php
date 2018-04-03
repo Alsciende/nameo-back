@@ -4,31 +4,46 @@ namespace App\Manager;
 
 use App\Entity\Card;
 use App\Entity\Match;
+use App\Exception\NotEnoughCardsException;
 use App\Repository\CardRepository;
 use App\Service\BoundedDistributionProvider;
 
 class MatchManager
 {
     /**
-     * @param Match                       $match
-     * @param BoundedDistributionProvider $provider
-     * @param CardRepository              $repository
+     * @var BoundedDistributionProvider
+     */
+    private $provider;
+
+    /**
+     * @var CardRepository
+     */
+    private $repository;
+
+    public function __construct(BoundedDistributionProvider $provider, CardRepository $repository)
+    {
+        $this->provider = $provider;
+        $this->repository = $repository;
+    }
+
+    /**
+     * @param Match $match
      * @return Card[]
      */
-    public function draw(Match $match, BoundedDistributionProvider $provider, CardRepository $repository): array
+    public function draw(Match $match): array
     {
-        $cardsByDecile = $repository->getCardsByDecile();
+        $cardsByDecile = $this->repository->getCardsByDecile();
 
         $list = [];
 
         for ($i = 0; $i < $match->getQuantity(); $i++) {
-            // get a random quantile centered around $quantile
-            $randomQuantile = $provider->rand(0, 11, $match->getDifficulty());
-            // get a random card belonging to that quantile
-            $randomIndex = mt_rand(0, count($cardsByDecile[$randomQuantile]) - 1);
-            // remove the card from the collection to avoid duplicates
-            $removedCards = array_splice($cardsByDecile[$randomQuantile], $randomIndex, 1);
-            // add the picked card to the result
+            $decile = $this->provider->rand(0, 9, $match->getDifficulty());
+            $cards = $cardsByDecile[$decile];
+            if (count($cards) === 0) {
+                throw new NotEnoughCardsException('Not enough cards in decile ' . $decile);
+            }
+            $randomIndex = mt_rand(0, count($cards) - 1);
+            $removedCards = array_splice($cards, $randomIndex, 1);
             $list[] = $removedCards[0];
         }
 
