@@ -25,6 +25,6 @@ class DeterministicDistributionTest extends TestCase
         $this->assertLessThanOrEqual([10], $this->classUnderTest->boundedAndCentered(0, 10, 5, 1));
 
         $sample = $this->classUnderTest->boundedAndCentered(0, 9, 5, 10);
-        $this->assertEquals([5,5,5,6,6,6,4,4,7,3], $sample);
+        $this->assertEquals([5,5,5,5,5,5,5,5,4,6], $sample);
     }
 }

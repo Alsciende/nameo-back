@@ -4,36 +4,26 @@ namespace App\Distribution;
 
 class DeterministicDistribution implements DistributionInterface
 {
-    const STEEPNESS = 0.3;
+    const RATIO = [
+        0.8,
+        0.1,
+        0.1,
+    ];
 
     public function boundedAndCentered(int $min, int $max, int $center, int $size)
     {
         $result = [];
 
-        $deviation = 0;
+        $difficulties = [
+            $center,
+            $center - 1 >= $min ? $center - 1 : $center + 1,
+            $center + 1 <= $max ? $center + 1 : $center - 1,
+        ];
 
-        while($size > 0 && $deviation < 10) {
-            $current = $center + $deviation;
-            if($current >= $min && $current <= $max) {
-                $chunk = ceil($size  * self::STEEPNESS);
-                for($i = 0; $i < $chunk; $i++) {
-                    $result[] = $current;
-                }
-
-                $size -= $chunk;
+        for ($part = 0; $part < count(self::RATIO); $part++) {
+            for ($i = 0; $i < round($size * self::RATIO[$part]); $i++) {
+                $result[] = $difficulties[$part];
             }
-
-            if ($deviation < 0) {
-                $deviation = -1 * $deviation + 1;
-            } else if ($deviation > 0) {
-                $deviation = -1 * $deviation;
-            } else {
-                $deviation = 1;
-            }
-        }
-
-        for($i = 0; $i < $size; $i++) {
-            $result[] = $center;
         }
 
         return $result;
