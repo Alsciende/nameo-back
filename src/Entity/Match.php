@@ -3,38 +3,75 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * Class Match
+ *
+ * @ORM\Entity()
+ * @ORM\Table(name="matches")
+ */
 class Match
 {
+    /**
+     * @var string
+     *
+     * @ORM\Id()
+     * @ORM\Column(type="string",length=36)
+     * @ORM\GeneratedValue(strategy="UUID")
+     */
+    protected $id;
 
     /**
      * @var int
+     *
+     * @ORM\Column(type="integer",nullable=false)
+     *
+     * @Assert\NotBlank()
      */
     protected $nbCards = 40;
 
     /**
      * @var int
+     *
+     * @ORM\Column(type="integer",nullable=false)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Range(min="0",max="5")
      */
     protected $difficulty = 0;
 
     /**
      * @var int
+     *
+     * @ORM\Column(type="integer",nullable=false)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Range(min="4")
      */
     protected $nbPlayers = 4;
 
     /**
      * @var int
+     *
+     * @ORM\Column(type="integer",nullable=false)
+     *
+     * @Assert\Range(min="2")
      */
     protected $nbTeams = 2;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(type="datetime",nullable=false)
+     *
+     * @Assert\NotBlank()
      */
     protected $startAt;
 
     /**
-     * @var Collection|Card[]
+     * @var ArrayCollection
      */
     protected $cards;
 
@@ -103,17 +140,62 @@ class Match
         return $this;
     }
 
-    public function getCards()
+    /**
+     * @return array
+     */
+    public function getCards(): array
     {
-        return $this->cards;
+        return $this->cards->toArray();
     }
 
-    public function setCards($cards): self
+    /**
+     * @param array $cards
+     * @return Match
+     */
+    public function setCards(iterable $cards): self
     {
-        $this->cards = $cards;
+        $this->clearCards();
+        foreach ($cards as $card) {
+            $this->addCard($card);
+        }
 
         return $this;
     }
 
+    /**
+     * @return Match
+     */
+    public function clearCards(): self
+    {
+        $this->cards->clear();
+
+        return $this;
+    }
+
+    /**
+     * @param Card $card
+     * @return Match
+     */
+    public function addCard(Card $card): self
+    {
+        if ($this->cards->contains($card) === false) {
+            $this->cards->add($card);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Card $card
+     * @return Match
+     */
+    public function removeCard(Card $card): self
+    {
+        if ($this->cards->contains($card)) {
+            $this->cards->removeElement($card);
+        }
+
+        return $this;
+    }
 
 }

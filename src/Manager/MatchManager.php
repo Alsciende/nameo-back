@@ -28,13 +28,11 @@ class MatchManager
 
     /**
      * @param Match $match
-     * @return Card[]
      */
-    public function draw(Match $match): array
+    public function drawCards(Match $match)
     {
         $byDifficulty = $this->repository->sortedByDifficulty();
 
-        $list = [];
         $difficulties = $this->distribution->boundedAndCentered(
             0,
             Card::MAX_DIFFICULTY,
@@ -49,9 +47,7 @@ class MatchManager
             }
             $randomIndex = mt_rand(0, count($cards) - 1);
             $removedCards = array_splice($cards, $randomIndex, 1);
-            $list[] = $removedCards[0];
+            $match->addCard($removedCards[0]);
         }
-
-        return $list;
     }
 }

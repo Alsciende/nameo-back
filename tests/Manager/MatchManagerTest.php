@@ -3,6 +3,7 @@
 namespace Tests\Manager;
 
 use App\Distribution\DistributionInterface;
+use App\Entity\Card;
 use App\Entity\Match;
 use App\Exception\NotEnoughCardsException;
 use App\Manager\MatchManager;
@@ -12,6 +13,11 @@ use PHPUnit\Framework\TestCase;
 
 class MatchManagerTest extends TestCase
 {
+    /**
+     * @var Card
+     */
+    private $card;
+
     /**
      * @var Match
      */
@@ -29,12 +35,14 @@ class MatchManagerTest extends TestCase
     {
         parent::setUp();
 
-        $this->match = $this->createMock(Match::class);
-        $this->match->method('getNbCards')->willReturn(1);
-        $this->match->method('getDifficulty')->willReturn(0);
+        $this->card = new Card('test');
+
+        $this->match = new Match();
+        $this->match->setNbCards(1);
+        $this->match->setDifficulty(0);
 
         $this->repository = $this->createMock(CardRepository::class);
-        $this->repository->method('sortedByDifficulty')->willReturn([['a'], []]);
+        $this->repository->method('sortedByDifficulty')->willReturn([[$this->card], []]);
     }
 
     /**
@@ -56,7 +64,8 @@ class MatchManagerTest extends TestCase
     public function testDraw()
     {
         $classUnderTest = new MatchManager($this->getProviderReturningValue(0), $this->repository);
-        $this->assertEquals(['a'], $classUnderTest->draw($this->match));
+        $classUnderTest->drawCards($this->match);
+        $this->assertEquals([$this->card], $this->match->getCards());
     }
 
     /**
@@ -66,6 +75,6 @@ class MatchManagerTest extends TestCase
     {
         $classUnderTest = new MatchManager($this->getProviderReturningValue(1), $this->repository);
         $this->expectException(NotEnoughCardsException::class);
-        $classUnderTest->draw($this->match);
+        $classUnderTest->drawCards($this->match);
     }
 }

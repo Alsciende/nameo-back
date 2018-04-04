@@ -19,7 +19,7 @@ class Card
      * @var string
      *
      * @ORM\Id()
-     * @ORM\Column(name="id",nullable=false,type="string",length=36)
+     * @ORM\Column(type="string",length=36)
      * @ORM\GeneratedValue(strategy="UUID")
      */
     protected $id;
@@ -27,7 +27,7 @@ class Card
     /**
      * @var string
      *
-     * @ORM\Column(name="title",nullable=false,type="string",length=50)
+     * @ORM\Column(type="string",length=50,nullable=false)
      *
      * @Assert\NotBlank()
      * @Assert\Length(max="50")
@@ -37,14 +37,14 @@ class Card
     /**
      * @var string|null
      *
-     * @ORM\Column(name="link",nullable=true,type="string")
+     * @ORM\Column(type="string",nullable=true)
      */
     protected $link;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="difficulty",nullable=false,type="integer")
+     * @ORM\Column(type="integer",nullable=false)
      *
      * @Assert\NotBlank()
      * @Assert\Range(min="0",max="5")
@@ -120,6 +120,4 @@ class Card
 
         return $this;
     }
-
-
 }
