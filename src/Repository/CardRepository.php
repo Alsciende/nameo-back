@@ -10,15 +10,15 @@ class CardRepository extends EntityRepository
     /**
      * @return Card[][]
      */
-    public function getCardsByDecile(): array
+    public function sortedByDifficulty(): array
     {
-        $result = array_fill(0, 12, []);
+        $result = array_fill(0, Card::MAX_DIFFICULTY, []);
 
         /** @var Card[] $cards */
         $cards = $this->findAll();
 
         foreach ($cards as $card) {
-            $result[$card->getDecile()][] = $card;
+            $result[$card->getDifficulty()][] = $card;
         }
 
         return $result;

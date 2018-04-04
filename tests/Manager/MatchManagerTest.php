@@ -30,11 +30,11 @@ class MatchManagerTest extends TestCase
         parent::setUp();
 
         $this->match = $this->createMock(Match::class);
-        $this->match->method('getQuantity')->willReturn(1);
+        $this->match->method('getNbCards')->willReturn(1);
         $this->match->method('getDifficulty')->willReturn(0);
 
         $this->repository = $this->createMock(CardRepository::class);
-        $this->repository->method('getCardsByDecile')->willReturn([['a'], []]);
+        $this->repository->method('sortedByDifficulty')->willReturn([['a'], []]);
     }
 
     /**

@@ -32,15 +32,20 @@ class MatchManager
      */
     public function draw(Match $match): array
     {
-        $cardsByDecile = $this->repository->getCardsByDecile();
+        $byDifficulty = $this->repository->sortedByDifficulty();
 
         $list = [];
-        $deciles = $this->distribution->boundedAndCentered(0, 9, $match->getDifficulty(), $match->getQuantity());
+        $difficulties = $this->distribution->boundedAndCentered(
+            0,
+            Card::MAX_DIFFICULTY,
+            $match->getDifficulty(),
+            $match->getNbCards()
+        );
 
-        foreach ($deciles as $decile) {
-            $cards = $cardsByDecile[$decile];
+        foreach ($difficulties as $difficulty) {
+            $cards = $byDifficulty[$difficulty];
             if (count($cards) === 0) {
-                throw new NotEnoughCardsException('Not enough cards in decile ' . $decile);
+                throw new NotEnoughCardsException('Not enough cards in difficulty ' . $difficulty);
             }
             $randomIndex = mt_rand(0, count($cards) - 1);
             $removedCards = array_splice($cards, $randomIndex, 1);

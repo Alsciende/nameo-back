@@ -12,7 +12,7 @@ class AppFixtures extends Fixture
     {
         for ($i = 0; $i < 200; $i++) {
             $card = new Card('Card ' . $i);
-            $card->setDecile($i % 10);
+            $card->setDifficulty($i % Card::MAX_DIFFICULTY);
 
             $manager->persist($card);
         }

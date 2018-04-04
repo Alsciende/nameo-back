@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Entity;
+
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Card
@@ -11,11 +13,13 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Card
 {
+    const MAX_DIFFICULTY = 5;
+
     /**
      * @var string
      *
      * @ORM\Id()
-     * @ORM\Column(name="id",nullable=false,type="string")
+     * @ORM\Column(name="id",nullable=false,type="string",length=36)
      * @ORM\GeneratedValue(strategy="UUID")
      */
     protected $id;
@@ -23,7 +27,10 @@ class Card
     /**
      * @var string
      *
-     * @ORM\Column(name="title",nullable=false,type="string")
+     * @ORM\Column(name="title",nullable=false,type="string",length=50)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Length(max="50")
      */
     protected $title;
 
@@ -37,9 +44,12 @@ class Card
     /**
      * @var int
      *
-     * @ORM\Column(name="decile",nullable=false,type="integer")
+     * @ORM\Column(name="difficulty",nullable=false,type="integer")
+     *
+     * @Assert\NotBlank()
+     * @Assert\Range(min="0",max="5")
      */
-    protected $decile;
+    protected $difficulty;
 
     /**
      * Card constructor.
@@ -48,7 +58,7 @@ class Card
     public function __construct(string $title)
     {
         $this->title = $title;
-        $this->decile = 0;
+        $this->difficulty = 0;
     }
 
     /**
@@ -94,19 +104,19 @@ class Card
     /**
      * @return int
      */
-    public function getDecile(): int
+    public function getDifficulty(): int
     {
-        return $this->decile;
+        return $this->difficulty;
     }
 
     /**
-     * @param int $decile
+     * @param int $difficulty
      *
      * @return self
      */
-    public function setDecile(int $decile): self
+    public function setDifficulty(int $difficulty): self
     {
-        $this->decile = $decile;
+        $this->difficulty = $difficulty;
 
         return $this;
     }
