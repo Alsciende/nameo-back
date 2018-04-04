@@ -2,27 +2,27 @@
 
 namespace App\Manager;
 
+use App\Distribution\DistributionInterface;
 use App\Entity\Card;
 use App\Entity\Match;
 use App\Exception\NotEnoughCardsException;
 use App\Repository\CardRepository;
-use App\Service\BoundedDistributionProvider;
 
 class MatchManager
 {
     /**
-     * @var BoundedDistributionProvider
+     * @var DistributionInterface
      */
-    private $provider;
+    private $distribution;
 
     /**
      * @var CardRepository
      */
     private $repository;
 
-    public function __construct(BoundedDistributionProvider $provider, CardRepository $repository)
+    public function __construct(DistributionInterface $distribution, CardRepository $repository)
     {
-        $this->provider = $provider;
+        $this->distribution = $distribution;
         $this->repository = $repository;
     }
 
@@ -35,9 +35,9 @@ class MatchManager
         $cardsByDecile = $this->repository->getCardsByDecile();
 
         $list = [];
+        $deciles = $this->distribution->boundedAndCentered(0, 9, $match->getDifficulty(), $match->getQuantity());
 
-        for ($i = 0; $i < $match->getQuantity(); $i++) {
-            $decile = $this->provider->rand(0, 9, $match->getDifficulty());
+        foreach ($deciles as $decile) {
             $cards = $cardsByDecile[$decile];
             if (count($cards) === 0) {
                 throw new NotEnoughCardsException('Not enough cards in decile ' . $decile);

@@ -2,6 +2,7 @@
 
 namespace Tests\Manager;
 
+use App\Distribution\DistributionInterface;
 use App\Entity\Match;
 use App\Exception\NotEnoughCardsException;
 use App\Manager\MatchManager;
@@ -38,13 +39,13 @@ class MatchManagerTest extends TestCase
 
     /**
      * @param int $value
-     * @return BoundedDistributionProvider|\PHPUnit\Framework\MockObject\MockObject
+     * @return DistributionInterface|\PHPUnit\Framework\MockObject\MockObject
      * @throws \ReflectionException
      */
     private function getProviderReturningValue(int $value)
     {
-        $mock = $this->createMock(BoundedDistributionProvider::class);
-        $mock->method('rand')->willReturn($value);
+        $mock = $this->createMock(DistributionInterface::class);
+        $mock->method('boundedAndCentered')->willReturn([$value]);
 
         return $mock;
     }
