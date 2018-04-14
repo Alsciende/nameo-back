@@ -9,12 +9,14 @@
         "symfony/form": "^4.0",
         "symfony/framework-bundle": "^4.0",
         "symfony/lts": "^4@dev",
+        "symfony/monolog-bundle": "^3.2",
         "symfony/orm-pack": "^1.0",
         "symfony/validator": "^4.0",
         "symfony/yaml": "^4.0"
     },
     "require-dev": {
         "beberlei/assert": "^2.9",
+        "behat-extension/doctrine-data-fixtures-extension": "^5.0",
         "behat/symfony2-extension": "^2.1",
         "doctrine/doctrine-fixtures-bundle": "^3.0",
         "friendsofphp/php-cs-fixer": "^2.11",

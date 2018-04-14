@@ -11,3 +11,8 @@ default:
             kernel:
                 bootstrap: features/bootstrap/bootstrap.php
                 class: App\Kernel
+        BehatExtension\DoctrineDataFixturesExtension\Extension:
+            lifetime:    'feature'
+            autoload:    true
+            directories: ~
+            fixtures:    ~

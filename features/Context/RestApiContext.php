@@ -4,6 +4,7 @@ namespace App\Features\Context;
 
 use Assert\Assertion;
 use Behat\Behat\Context\Context;
+use Behat\Gherkin\Node\PyStringNode;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -13,6 +14,35 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class RestApiContext implements Context
 {
+    /**
+     * Request options
+     *
+     * Options to send with the request.
+     *
+     * @var array
+     */
+    protected $requestOptions = [];
+
+    /**
+     * @var string
+     */
+    protected $content = '';
+
+    /**
+     * @var array
+     */
+    protected $parameters = [];
+
+    /**
+     * @var array
+     */
+    protected $files = [];
+
+    /**
+     * @var array
+     */
+    protected $server = [];
+
     /**
      * @var Client
      */
@@ -96,7 +126,7 @@ class RestApiContext implements Context
      */
     private function sendRequest()
     {
-        $this->client->request($this->method, $this->path);
+        $this->client->request($this->method, $this->path, $this->parameters, $this->files, $this->server, $this->content);
         $this->response = $this->client->getResponse();
     }
 
@@ -138,4 +168,25 @@ class RestApiContext implements Context
 
         return $code;
     }
+
+    /**
+     * Set the request body to a string
+     *
+     * @param resource|string|PyStringNode $body The content to set as the request body
+     * @return self
+     *
+     * @Given the request body is:
+     */
+    public function setRequestBody(string $body)
+    {
+        if (!empty($this->requestOptions['multipart']) || !empty($this->requestOptions['form_params'])) {
+            throw new \InvalidArgumentException(
+                'It\'s not allowed to set a request body when using multipart/form-data or form parameters.'
+            );
+        }
+        $this->content = $body;
+
+        return $this;
+    }
+
 }
