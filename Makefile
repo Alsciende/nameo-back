@@ -1,14 +1,16 @@
-phpstan:
-	vendor/bin/phpstan analyse --configuration phpstan.neon --level 7 src/
+phpcs:
+	vendor/bin/php-cs-fixer fix --dry-run --allow-risky=yes src/
 
-behat:
-	vendor/bin/behat
+phpstan:
+	vendor/bin/phpstan analyse --configuration=phpstan.neon --level=7 src/
 
 phpunit:
 	vendor/bin/phpunit
 
-tests: phpstan phpunit behat
+behat:
+	vendor/bin/behat
+
+test: phpcs phpstan phpunit behat
 
 fix:
-	vendor/bin/php-cs-fixer fix --verbose --allow-risky yes src/
-
+	vendor/bin/php-cs-fixer fix --verbose --allow-risky=yes src/
