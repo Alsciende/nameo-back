@@ -6,5 +6,6 @@ return PhpCsFixer\Config::create()
         'array_syntax' => ['syntax' => 'short'],
         'concat_space' => ['spacing' => 'one'],
         'increment_style' => ['style' => 'post'],
+        'declare_strict_types' => true,
     ])
 ;

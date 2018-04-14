@@ -10,5 +10,5 @@ phpunit:
 tests: phpstan phpunit behat
 
 fix:
-	vendor/bin/php-cs-fixer fix --verbose src/
+	vendor/bin/php-cs-fixer fix --verbose --allow-risky yes src/
 
