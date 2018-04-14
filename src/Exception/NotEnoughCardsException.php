@@ -3,7 +3,7 @@
 namespace App\Exception;
 
 /**
- * Description of NotEnoughCardsException
+ * Description of NotEnoughCardsException.
  *
  * @author Alsciende <alsciende@icloud.com>
  */

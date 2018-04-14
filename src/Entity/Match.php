@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class Match
+ * Class Match.
  *
  * @ORM\Entity()
  * @ORM\Table(name="matches")
@@ -75,7 +75,8 @@ class Match
      */
     protected $cards;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->startAt = new \DateTime();
         $this->cards = new ArrayCollection();
     }
@@ -150,6 +151,7 @@ class Match
 
     /**
      * @param array $cards
+     *
      * @return Match
      */
     public function setCards(iterable $cards): self
@@ -174,11 +176,12 @@ class Match
 
     /**
      * @param Card $card
+     *
      * @return Match
      */
     public function addCard(Card $card): self
     {
-        if ($this->cards->contains($card) === false) {
+        if (false === $this->cards->contains($card)) {
             $this->cards->add($card);
         }
 
@@ -187,6 +190,7 @@ class Match
 
     /**
      * @param Card $card
+     *
      * @return Match
      */
     public function removeCard(Card $card): self
@@ -197,5 +201,4 @@ class Match
 
         return $this;
     }
-
 }

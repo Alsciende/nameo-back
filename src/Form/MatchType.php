@@ -8,7 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Description of MatchType
+ * Description of MatchType.
  *
  * @author Alsciende <alsciende@icloud.com>
  */
@@ -25,7 +25,7 @@ class MatchType extends AbstractType
                 'widget' => 'single_text',
                 'format' => DateTimeType::HTML5_FORMAT,
                 'input' => 'datetime',
-                'model_timezone' => 'UTC'
+                'model_timezone' => 'UTC',
             ])
         ;
     }

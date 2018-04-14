@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class Card
+ * Class Card.
  *
  * @ORM\Entity()
  * @ORM\Table(name="cards",uniqueConstraints={@ORM\UniqueConstraint(name="title_idx", columns={"title"})})
@@ -53,6 +53,7 @@ class Card
 
     /**
      * Card constructor.
+     *
      * @param string $title
      */
     public function __construct(string $title)

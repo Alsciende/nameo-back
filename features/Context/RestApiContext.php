@@ -34,7 +34,7 @@ class RestApiContext implements Context
     private $force;
 
     /**
-     * @var Response
+     * @var Response|null
      */
     private $response;
 

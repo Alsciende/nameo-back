@@ -8,8 +8,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class MatchController
- * @package App\Controller
+ * Class MatchController.
+ *
  * @Route(path="/matches")
  */
 class MatchController extends Controller
@@ -17,7 +17,6 @@ class MatchController extends Controller
     /**
      * @param Request $request
      * @Route(path="/",methods={"POST"})
-     *
      */
     public function createAction(Request $request)
     {
