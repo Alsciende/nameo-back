@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Manager;
 
 use App\Distribution\DistributionInterface;
@@ -41,12 +43,11 @@ class MatchManager
         );
 
         foreach ($difficulties as $difficulty) {
-            $cards = $byDifficulty[$difficulty];
-            if (count($cards) === 0) {
+            $count = count($byDifficulty[$difficulty]);
+            if (0 === $count) {
                 throw new NotEnoughCardsException('Not enough cards in difficulty ' . $difficulty);
             }
-            $randomIndex = mt_rand(0, count($cards) - 1);
-            $removedCards = array_splice($cards, $randomIndex, 1);
+            $removedCards = array_splice($byDifficulty[$difficulty], mt_rand(0, $count - 1), 1);
             $match->addCard($removedCards[0]);
         }
     }

@@ -1,6 +1,8 @@
 <?php
 
-namespace App\DataFixtures;
+declare(strict_types=1);
+
+namespace App\DataFixtures\ORM;
 
 use App\Entity\Card;
 use Doctrine\Bundle\FixturesBundle\Fixture;

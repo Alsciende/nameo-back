@@ -1,16 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class Match
- *
  * @ORM\Entity()
  * @ORM\Table(name="matches")
+ *
+ * @Serializer\ExclusionPolicy("all")
  */
 class Match
 {
@@ -20,6 +23,9 @@ class Match
      * @ORM\Id()
      * @ORM\Column(type="string",length=36)
      * @ORM\GeneratedValue(strategy="UUID")
+     *
+     * @Serializer\Expose()
+     * @Serializer\Groups({"match"})
      */
     protected $id;
 
@@ -72,10 +78,14 @@ class Match
 
     /**
      * @var ArrayCollection
+     *
+     * @Serializer\Expose()
+     * @Serializer\Groups({"match"})
      */
     protected $cards;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->startAt = new \DateTime();
         $this->cards = new ArrayCollection();
     }
@@ -150,6 +160,7 @@ class Match
 
     /**
      * @param array $cards
+     *
      * @return Match
      */
     public function setCards(iterable $cards): self
@@ -174,11 +185,12 @@ class Match
 
     /**
      * @param Card $card
+     *
      * @return Match
      */
     public function addCard(Card $card): self
     {
-        if ($this->cards->contains($card) === false) {
+        if (false === $this->cards->contains($card)) {
             $this->cards->add($card);
         }
 
@@ -187,6 +199,7 @@ class Match
 
     /**
      * @param Card $card
+     *
      * @return Match
      */
     public function removeCard(Card $card): self
@@ -197,5 +210,4 @@ class Match
 
         return $this;
     }
-
 }
