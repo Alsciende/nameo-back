@@ -14,3 +14,6 @@ Feature: Match
       """
     When I request "/matches/" using HTTP POST
     Then the response code is 200
+    When I load the response as JSON
+    Then the JSON should be valid
+    And the JSON should be valid according to the schema "match.json"

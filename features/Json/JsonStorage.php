@@ -1,14 +1,17 @@
 <?php
 
-namespace App\Json;
+declare(strict_types=1);
 
-use Ubirak\RestApiBehatExtension\Rest\ResponseStorage;
+namespace App\Features\Json;
 
 /**
  * Store the JSON that we could analyze it in JsonContext.
  */
-class JsonStorage implements ResponseStorage
+class JsonStorage
 {
+    /**
+     * @var mixed
+     */
     private $rawContent;
 
     public function writeRawContent($rawContent)
@@ -18,7 +21,7 @@ class JsonStorage implements ResponseStorage
 
     public function readJson()
     {
-        if ($this->rawContent === null) {
+        if (null === $this->rawContent) {
             throw new \LogicException('No content defined. You should use JsonStorage::writeRawContent method to inject content you want to analyze');
         }
 

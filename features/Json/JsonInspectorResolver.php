@@ -1,11 +1,16 @@
 <?php
 
-namespace App\Json;
+declare(strict_types=1);
+
+namespace App\Features\Json;
 
 use Behat\Behat\Context\Argument\ArgumentResolver;
 
 class JsonInspectorResolver implements ArgumentResolver
 {
+    /**
+     * @var JsonInspector
+     */
     private $jsonInspector;
 
     public function __construct(JsonInspector $jsonInspector)
@@ -16,13 +21,13 @@ class JsonInspectorResolver implements ArgumentResolver
     public function resolveArguments(\ReflectionClass $classReflection, array $arguments)
     {
         $constructor = $classReflection->getConstructor();
-        if ($constructor === null) {
+        if (null === $constructor) {
             return $arguments;
         }
 
         $parameters = $constructor->getParameters();
         foreach ($parameters as $parameter) {
-            if (null !== $parameter->getClass() && $parameter->getClass()->name === 'Ubirak\RestApiBehatExtension\Json\JsonInspector') {
+            if (null !== $parameter->getClass() && 'Ubirak\RestApiBehatExtension\Json\JsonInspector' === $parameter->getClass()->name) {
                 $arguments[$parameter->name] = $this->jsonInspector;
             }
         }

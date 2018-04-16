@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Behavior;
 
 use Assert\Assertion;
@@ -7,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Assert\AssertionFailedException;
 
 /**
- * Description of JsonRequestContentTrait
+ * Description of JsonRequestContentTrait.
  *
  * @author Alsciende <alsciende@icloud.com>
  */
@@ -15,6 +17,7 @@ trait JsonRequestContentTrait
 {
     /**
      * @param Request $request
+     *
      * @return array
      */
     public function getJsonRequestContent(Request $request): array

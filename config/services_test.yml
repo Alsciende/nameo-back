@@ -1,0 +1,12 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    App\Features\Json\:
+        resource: '../features/Json/*'
+
+    json_inspector:
+        class: App\Features\Json\JsonInspector
+        public: true

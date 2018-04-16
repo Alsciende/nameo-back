@@ -2,9 +2,12 @@ default:
     suites:
         default:
             contexts:
-                - App\Features\Context\RestApiContext:
+                - App\Features\Context\ApiContext:
                     client : '@test.client'
                 - App\Features\Context\FeatureContext: ~
+                - App\Features\Context\JsonContext:
+                    jsonInspector: '@json_inspector'
+                    jsonSchemaBaseUrl: 'features/json_schema/'
 
     extensions:
         Behat\Symfony2Extension:

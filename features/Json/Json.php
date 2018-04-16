@@ -1,16 +1,49 @@
 <?php
 
-namespace App\Json;
+declare(strict_types=1);
 
-use Symfony\Component\PropertyAccess\PropertyAccessor;
+namespace App\Features\Json;
+
+use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 class Json
 {
+    /**
+     * @var mixed
+     */
     private $content;
 
+    /**
+     * Json constructor.
+     *
+     * @param mixed $content
+     * @param bool  $encodedAsString
+     *
+     * @throws \Exception
+     */
     public function __construct($content, $encodedAsString = true)
     {
         $this->content = true === $encodedAsString ? $this->decode((string) $content) : $content;
+    }
+
+    /**
+     * @param $content
+     *
+     * @return mixed
+     *
+     * @throws \Exception
+     */
+    private function decode($content)
+    {
+        $result = json_decode($content);
+
+        if (JSON_ERROR_NONE !== json_last_error()) {
+            throw new \Exception(
+                sprintf('The string "%s" is not valid json', $content)
+            );
+        }
+
+        return $result;
     }
 
     public static function fromRawContent($content)
@@ -18,7 +51,13 @@ class Json
         return new static($content, false);
     }
 
-    public function read($expression, PropertyAccessor $accessor)
+    /**
+     * @param                           $expression
+     * @param PropertyAccessorInterface $accessor
+     *
+     * @return array|mixed
+     */
+    public function read($expression, PropertyAccessorInterface $accessor)
     {
         if (is_array($this->content)) {
             $expression = preg_replace('/^root/', '', $expression);
@@ -39,6 +78,11 @@ class Json
         return $this->content;
     }
 
+    public function __toString()
+    {
+        return $this->encode(false);
+    }
+
     public function encode($pretty = true)
     {
         if (true === $pretty && defined('JSON_PRETTY_PRINT')) {
@@ -46,23 +90,5 @@ class Json
         }
 
         return json_encode($this->content);
-    }
-
-    public function __toString()
-    {
-        return $this->encode(false);
-    }
-
-    private function decode($content)
-    {
-        $result = json_decode($content);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new \Exception(
-                sprintf('The string "%s" is not valid json', $content)
-            );
-        }
-
-        return $result;
     }
 }

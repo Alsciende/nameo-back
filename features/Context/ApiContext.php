@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @author Alsciende <alsciende@icloud.com>
  * @see https://github.com/imbo/behat-api-extension
  */
-class RestApiContext implements Context
+class ApiContext implements Context
 {
     /**
      * Request options
@@ -21,27 +21,27 @@ class RestApiContext implements Context
      *
      * @var array
      */
-    protected $requestOptions = [];
+    private $requestOptions = [];
 
     /**
      * @var string
      */
-    protected $content = '';
+    private $content = '';
 
     /**
      * @var array
      */
-    protected $parameters = [];
+    private $parameters = [];
 
     /**
      * @var array
      */
-    protected $files = [];
+    private $files = [];
 
     /**
      * @var array
      */
-    protected $server = [];
+    private $server = [];
 
     /**
      * @var Client
@@ -71,6 +71,11 @@ class RestApiContext implements Context
     public function __construct(Client $client)
     {
         $this->client = $client;
+    }
+
+    public function getResponse(): ?Response
+    {
+        return $this->response;
     }
 
     /**
@@ -128,7 +133,6 @@ class RestApiContext implements Context
     {
         $this->client->request($this->method, $this->path, $this->parameters, $this->files, $this->server, $this->content);
         $this->response = $this->client->getResponse();
-        print((string) $this->response->getContent());
     }
 
     /**
