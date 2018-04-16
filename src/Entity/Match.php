@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -13,6 +14,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Entity()
  * @ORM\Table(name="matches")
+ *
+ * @Serializer\ExclusionPolicy("all")
  */
 class Match
 {
@@ -22,6 +25,9 @@ class Match
      * @ORM\Id()
      * @ORM\Column(type="string",length=36)
      * @ORM\GeneratedValue(strategy="UUID")
+     *
+     * @Serializer\Expose()
+     * @Serializer\Groups({"match"})
      */
     protected $id;
 
@@ -74,6 +80,9 @@ class Match
 
     /**
      * @var ArrayCollection
+     *
+     * @Serializer\Expose()
+     * @Serializer\Groups({"match"})
      */
     protected $cards;
 

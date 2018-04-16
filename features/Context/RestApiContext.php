@@ -128,6 +128,7 @@ class RestApiContext implements Context
     {
         $this->client->request($this->method, $this->path, $this->parameters, $this->files, $this->server, $this->content);
         $this->response = $this->client->getResponse();
+        print((string) $this->response->getContent());
     }
 
     /**

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -12,6 +13,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Entity()
  * @ORM\Table(name="cards",uniqueConstraints={@ORM\UniqueConstraint(name="title_idx", columns={"title"})})
+ *
+ * @Serializer\ExclusionPolicy("all")
  */
 class Card
 {
@@ -23,6 +26,9 @@ class Card
      * @ORM\Id()
      * @ORM\Column(type="string",length=36)
      * @ORM\GeneratedValue(strategy="UUID")
+     *
+     * @Serializer\Expose()
+     * @Serializer\Groups({"match"})
      */
     protected $id;
 
@@ -33,6 +39,9 @@ class Card
      *
      * @Assert\NotBlank()
      * @Assert\Length(max="50")
+     *
+     * @Serializer\Expose()
+     * @Serializer\Groups({"match"})
      */
     protected $title;
 

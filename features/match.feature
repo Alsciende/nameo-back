@@ -1,5 +1,5 @@
-Feature: Hello world
-  I need to be able to see hello world
+Feature: Match
+  I need to be able to create a match and get its cards
 
   Scenario: I can post a match
     Given the request body is:

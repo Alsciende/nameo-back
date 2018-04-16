@@ -8,6 +8,9 @@ use App\Behavior\JsonRequestContentTrait;
 use App\Entity\Match;
 use App\Form\MatchType;
 use App\Manager\MatchManager;
+use Doctrine\ORM\EntityManagerInterface;
+use JMS\Serializer\ArrayTransformerInterface;
+use JMS\Serializer\SerializationContext;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,10 +26,35 @@ class MatchController extends Controller
     use JsonRequestContentTrait;
 
     /**
+     * @var MatchManager
+     */
+    private $manager;
+
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
+
+    /**
+     * @var ArrayTransformerInterface
+     */
+    private $normalizer;
+
+    public function __construct(
+        MatchManager $manager,
+        EntityManagerInterface $entityManager,
+        ArrayTransformerInterface $normalizer
+    ) {
+        $this->manager = $manager;
+        $this->entityManager = $entityManager;
+        $this->normalizer = $normalizer;
+    }
+
+    /**
      * @param Request $request
      * @Route(path="/",methods={"POST"})
      */
-    public function create(Request $request, MatchManager $manager)
+    public function create(Request $request)
     {
         $match = new Match();
         $form = $this->createForm(MatchType::class, $match);
@@ -34,11 +62,19 @@ class MatchController extends Controller
         $form->submit($this->getJsonRequestContent($request));
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $manager->drawCards($match);
+            $this->entityManager->persist($match);
+            $this->entityManager->flush();
 
-            return new JsonResponse(['success' => true]);
+            $this->manager->drawCards($match);
+
+            return new JsonResponse(
+                $this->normalizer->toArray(
+                    $match,
+                    SerializationContext::create()->setGroups(['match'])
+                )
+            );
         }
 
-        return new JsonResponse(['success' => false], 500);
+        return new JsonResponse(null, 200);
     }
 }
