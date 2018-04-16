@@ -17,3 +17,4 @@ Feature: Match
     When I load the response as JSON
     Then the JSON should be valid
     And the JSON should be valid according to the schema "match.json"
+    And the JSON array node "cards" should have 30 elements

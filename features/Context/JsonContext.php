@@ -109,7 +109,7 @@ class JsonContext implements Context, SnippetAcceptingContext
      * @Then /^the JSON node "(?P<jsonNode>[^"]*)" should have (?P<expectedNth>\d+) elements?$/
      * @Then /^the JSON array node "(?P<jsonNode>[^"]*)" should have (?P<expectedNth>\d+) elements?$/
      */
-    public function theJsonNodeShouldHaveElements($jsonNode, $expectedNth)
+    public function theJsonNodeShouldHaveElements($jsonNode, int $expectedNth)
     {
         $realValue = $this->evaluateJsonNodeValue($jsonNode);
         Assertion::isArray($realValue);
