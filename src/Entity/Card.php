@@ -9,8 +9,6 @@ use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class Card.
- *
  * @ORM\Entity()
  * @ORM\Table(name="cards",uniqueConstraints={@ORM\UniqueConstraint(name="title_idx", columns={"title"})})
  *

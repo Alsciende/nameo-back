@@ -9,11 +9,6 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-/**
- * Description of MatchType.
- *
- * @author Alsciende <alsciende@icloud.com>
- */
 class MatchType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)

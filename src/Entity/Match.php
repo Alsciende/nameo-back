@@ -10,8 +10,6 @@ use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class Match.
- *
  * @ORM\Entity()
  * @ORM\Table(name="matches")
  *

@@ -8,11 +8,6 @@ use Assert\Assertion;
 use Symfony\Component\HttpFoundation\Request;
 use Assert\AssertionFailedException;
 
-/**
- * Description of JsonRequestContentTrait.
- *
- * @author Alsciende <alsciende@icloud.com>
- */
 trait JsonRequestContentTrait
 {
     /**

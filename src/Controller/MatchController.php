@@ -17,8 +17,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class MatchController.
- *
  * @Route(path="/matches")
  */
 class MatchController extends Controller

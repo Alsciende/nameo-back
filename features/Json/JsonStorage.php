@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Features\Json;
 
-/**
- * Store the JSON that we could analyze it in JsonContext.
- */
 class JsonStorage
 {
     /**
