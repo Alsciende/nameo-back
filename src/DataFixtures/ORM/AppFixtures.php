@@ -6,6 +6,7 @@ namespace App\DataFixtures\ORM;
 
 use App\Entity\Card;
 use App\Entity\Match;
+use App\Util\DateTimeNormalizer;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -36,7 +37,14 @@ class AppFixtures extends Fixture
         $match->setNbCards(40);
         $match->setNbPlayers(4);
         $match->setNbTeams(2);
-        $match->setStartAt(\DateTime::createFromFormat('Y-m-d H:i:s', '2018-01-01 12:00:00'));
+
+        $startedAt = DateTimeNormalizer::create('2017-07-14T08:40:00+06:00');
+        $match->setStartedDate(DateTimeNormalizer::date($startedAt));
+        $match->setStartedTime(DateTimeNormalizer::time($startedAt));
+        $match->setStartedTz(DateTimeNormalizer::tz($startedAt));
+
+        $startedAt->setTimezone(new \DateTimeZone('+00:00'));
+        $match->setStartedAt($startedAt);
 
         $manager->persist($match);
     }

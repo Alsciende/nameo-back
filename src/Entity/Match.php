@@ -32,7 +32,7 @@ class Match
     /**
      * @var int
      *
-     * @ORM\Column(type="integer",nullable=false)
+     * @ORM\Column(type="integer")
      *
      * @Assert\NotBlank()
      */
@@ -41,7 +41,7 @@ class Match
     /**
      * @var int
      *
-     * @ORM\Column(type="integer",nullable=false)
+     * @ORM\Column(type="integer")
      *
      * @Assert\NotBlank()
      * @Assert\Range(min="0",max="5")
@@ -51,7 +51,7 @@ class Match
     /**
      * @var int
      *
-     * @ORM\Column(type="integer",nullable=false)
+     * @ORM\Column(type="integer")
      *
      * @Assert\NotBlank()
      * @Assert\Range(min="4")
@@ -61,7 +61,7 @@ class Match
     /**
      * @var int
      *
-     * @ORM\Column(type="integer",nullable=false)
+     * @ORM\Column(type="integer")
      *
      * @Assert\Range(min="2")
      */
@@ -70,11 +70,41 @@ class Match
     /**
      * @var \DateTime
      *
-     * @ORM\Column(type="datetime",nullable=false)
+     * @ORM\Column(type="datetime")
      *
      * @Assert\NotBlank()
      */
-    private $startAt;
+    private $startedAt;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string",length=10)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Length(min="10",max="10")
+     */
+    private $startedDate = '';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string",length=8)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Length(max="8",max="8")
+     */
+    private $startedTime = '';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string",length=6)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Length(max="6",max="6")
+     */
+    private $startedTz = '';
 
     /**
      * @var ArrayCollection
@@ -86,7 +116,7 @@ class Match
 
     public function __construct()
     {
-        $this->startAt = new \DateTime();
+        $this->startedAt = new \DateTime();
         $this->cards = new ArrayCollection();
     }
 
@@ -138,14 +168,14 @@ class Match
         return $this;
     }
 
-    public function getStartAt(): \DateTime
+    public function getStartedAt(): \DateTime
     {
-        return $this->startAt;
+        return $this->startedAt;
     }
 
-    public function setStartAt(\DateTime $startAt): self
+    public function setStartedAt(\DateTime $startedAt): self
     {
-        $this->startAt = $startAt;
+        $this->startedAt = $startedAt;
 
         return $this;
     }
@@ -161,7 +191,7 @@ class Match
     /**
      * @param array $cards
      *
-     * @return Match
+     * @return $this
      */
     public function setCards(iterable $cards): self
     {
@@ -174,7 +204,7 @@ class Match
     }
 
     /**
-     * @return Match
+     * @return $this
      */
     public function clearCards(): self
     {
@@ -186,7 +216,7 @@ class Match
     /**
      * @param Card $card
      *
-     * @return Match
+     * @return $this
      */
     public function addCard(Card $card): self
     {
@@ -200,7 +230,7 @@ class Match
     /**
      * @param Card $card
      *
-     * @return Match
+     * @return $this
      */
     public function removeCard(Card $card): self
     {
@@ -217,5 +247,41 @@ class Match
     public function getId(): string
     {
         return $this->id;
+    }
+
+    public function getStartedDate(): string
+    {
+        return $this->startedDate;
+    }
+
+    public function setStartedDate(string $startedDate): self
+    {
+        $this->startedDate = $startedDate;
+
+        return $this;
+    }
+
+    public function getStartedTime(): string
+    {
+        return $this->startedTime;
+    }
+
+    public function setStartedTime(string $startedTime): self
+    {
+        $this->startedTime = $startedTime;
+
+        return $this;
+    }
+
+    public function getStartedTz(): string
+    {
+        return $this->startedTz;
+    }
+
+    public function setStartedTz(string $startedTz): self
+    {
+        $this->startedTz = $startedTz;
+
+        return $this;
     }
 }

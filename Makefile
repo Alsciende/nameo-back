@@ -18,7 +18,7 @@ behat:
 fix:
 	vendor/bin/php-cs-fixer fix --verbose --allow-risky=yes src/
 
-db-recreate: db-drop db-create
+db-reset: db-drop db-create db-schema
 
 db-drop:
 	bin/console doctrine:database:drop --force
@@ -26,5 +26,8 @@ db-drop:
 db-create:
 	bin/console doctrine:database:create
 
-fixtures:
-	bin/console doctrine:fixtures:load
+db-schema:
+	bin/console doctrine:schema:create
+
+fixtures: db-reset
+	bin/console doctrine:fixtures:load --no-interaction

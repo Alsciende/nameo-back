@@ -15,7 +15,7 @@ class MatchTypeTest extends TypeTestCase
             'difficulty' => 2,
             'nb_players' => 6,
             'nb_teams' => 3,
-            'start_at' => '2017-07-14T02:40:00+00:00'
+            'started_at' => '2017-07-14T02:40:00+00:00'
         );
 
         $objectToCompare = new Match();
@@ -27,7 +27,10 @@ class MatchTypeTest extends TypeTestCase
         $object->setNbCards(30);
         $object->setNbPlayers(6);
         $object->setNbTeams(3);
-        $object->setStartAt(\DateTime::createFromFormat('U', '1500000000'));
+        $object->setStartedAt(\DateTime::createFromFormat('U', '1500000000'));
+        $object->setStartedDate('2017-07-14');
+        $object->setStartedTime('02:40:00');
+        $object->setStartedTz('+00:00');
 
         // submit the data to the form directly
         $form->submit($formData);
@@ -45,7 +48,7 @@ class MatchTypeTest extends TypeTestCase
             'difficulty' => 2,
             'nb_players' => 6,
             'nb_teams' => 3,
-            'start_at' => '2017-07-14T04:40:00+02:00'
+            'started_at' => '2017-07-14T08:40:00+06:00'
         );
 
         $objectToCompare = new Match();
@@ -57,7 +60,10 @@ class MatchTypeTest extends TypeTestCase
         $object->setNbCards(30);
         $object->setNbPlayers(6);
         $object->setNbTeams(3);
-        $object->setStartAt(\DateTime::createFromFormat('U', '1500000000'));
+        $object->setStartedAt(\DateTime::createFromFormat('U', '1500000000'));
+        $object->setStartedDate('2017-07-14');
+        $object->setStartedTime('08:40:00');
+        $object->setStartedTz('+06:00');
 
         // submit the data to the form directly
         $form->submit($formData);

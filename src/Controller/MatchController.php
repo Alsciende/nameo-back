@@ -73,6 +73,6 @@ class MatchController extends Controller
             );
         }
 
-        return new JsonResponse(null, 200);
+        return new JsonResponse($this->normalizer->toArray($form->getErrors(true)));
     }
 }

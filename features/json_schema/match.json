@@ -44,8 +44,10 @@
                             "Edgar Alan Poe"
                         ]
                     }
-                }
+                },
+                "required": ["id","title"]
             }
         }
-    }
+    },
+    "required": ["id","cards"]
 }

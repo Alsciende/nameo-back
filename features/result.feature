@@ -9,16 +9,13 @@ Feature: Result
       {
           "match": "{{ data["matches"][0]["id"] }}",
           "attempts": [
-              "{{ data["cards"][0]["id"] }}",
-              "{{ data["cards"][1]["id"] }}",
-              "{{ data["cards"][2]["id"] }}",
-              "{{ data["cards"][3]["id"] }}",
-              "{{ data["cards"][4]["id"] }}",
-              "{{ data["cards"][5]["id"] }}",
-              "{{ data["cards"][6]["id"] }}",
-              "{{ data["cards"][7]["id"] }}",
-              "{{ data["cards"][8]["id"] }}",
-              "{{ data["cards"][9]["id"] }}"
+              [
+                "step": 1,
+                "card": "{{ data["cards"][0]["id"] }}",
+                "presented_at": "2018-01-01 12:10:00",
+                "presented_for": 10,
+                "outcome": 1
+              ]
           ]
       }
       """
