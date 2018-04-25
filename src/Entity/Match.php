@@ -27,7 +27,7 @@ class Match
      * @Serializer\Expose()
      * @Serializer\Groups({"match"})
      */
-    protected $id;
+    private $id;
 
     /**
      * @var int
@@ -36,7 +36,7 @@ class Match
      *
      * @Assert\NotBlank()
      */
-    protected $nbCards = 40;
+    private $nbCards = 40;
 
     /**
      * @var int
@@ -46,7 +46,7 @@ class Match
      * @Assert\NotBlank()
      * @Assert\Range(min="0",max="5")
      */
-    protected $difficulty = 0;
+    private $difficulty = 0;
 
     /**
      * @var int
@@ -56,7 +56,7 @@ class Match
      * @Assert\NotBlank()
      * @Assert\Range(min="4")
      */
-    protected $nbPlayers = 4;
+    private $nbPlayers = 4;
 
     /**
      * @var int
@@ -65,7 +65,7 @@ class Match
      *
      * @Assert\Range(min="2")
      */
-    protected $nbTeams = 2;
+    private $nbTeams = 2;
 
     /**
      * @var \DateTime
@@ -74,7 +74,7 @@ class Match
      *
      * @Assert\NotBlank()
      */
-    protected $startAt;
+    private $startAt;
 
     /**
      * @var ArrayCollection
@@ -82,7 +82,7 @@ class Match
      * @Serializer\Expose()
      * @Serializer\Groups({"match"})
      */
-    protected $cards;
+    private $cards;
 
     public function __construct()
     {
@@ -209,5 +209,13 @@ class Match
         }
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
     }
 }

@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="cards",uniqueConstraints={@ORM\UniqueConstraint(name="title_idx", columns={"title"})})
+ * @ORM\Table(name="cards",uniqueConstraints={@ORM\UniqueConstraint(columns={"title"})})
  *
  * @Serializer\ExclusionPolicy("all")
  */
@@ -28,7 +28,7 @@ class Card
      * @Serializer\Expose()
      * @Serializer\Groups({"match"})
      */
-    protected $id;
+    private $id;
 
     /**
      * @var string
@@ -41,14 +41,14 @@ class Card
      * @Serializer\Expose()
      * @Serializer\Groups({"match"})
      */
-    protected $title;
+    private $title;
 
     /**
      * @var string|null
      *
      * @ORM\Column(type="string",nullable=true)
      */
-    protected $link;
+    private $link;
 
     /**
      * @var int
@@ -58,7 +58,7 @@ class Card
      * @Assert\NotBlank()
      * @Assert\Range(min="0",max="5")
      */
-    protected $difficulty;
+    private $difficulty;
 
     /**
      * Card constructor.
@@ -129,5 +129,13 @@ class Card
         $this->difficulty = $difficulty;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
     }
 }
