@@ -1,3 +1,8 @@
+test: mappings phpcs phpstan phpunit behat
+
+mappings:
+	bin/console doctrine:schema:validate --skip-sync
+
 phpcs:
 	vendor/bin/php-cs-fixer fix --dry-run --allow-risky=yes src/
 
@@ -10,18 +15,16 @@ phpunit:
 behat:
 	vendor/bin/behat
 
-test: phpcs phpstan phpunit behat
-
 fix:
 	vendor/bin/php-cs-fixer fix --verbose --allow-risky=yes src/
+
+db-recreate: db-drop db-create
 
 db-drop:
 	bin/console doctrine:database:drop --force
 
 db-create:
 	bin/console doctrine:database:create
-
-db-recreate: db-drop db-create
 
 fixtures:
 	bin/console doctrine:fixtures:load

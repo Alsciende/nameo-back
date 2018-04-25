@@ -6,6 +6,7 @@ use Assert\Assertion;
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
 use Symfony\Bundle\FrameworkBundle\Client;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -67,6 +68,11 @@ class ApiContext implements Context
      * @var Response|null
      */
     private $response;
+
+    /**
+     * @var array
+     */
+    public $expressionLanguageData = [];
 
     public function __construct(Client $client)
     {
@@ -189,9 +195,23 @@ class ApiContext implements Context
                 'It\'s not allowed to set a request body when using multipart/form-data or form parameters.'
             );
         }
-        $this->content = $body;
+        $this->content = $this->parseExpressionLanguageTemplate($body);
 
         return $this;
     }
 
+    /**
+     * Considers all substrings surrounded by {{ }} as Expression Language expressions and evaluates them
+     *
+     * @param string $template
+     * @return null|string|string[]
+     */
+    private function parseExpressionLanguageTemplate(string $template)
+    {
+        $expressionLanguage = new ExpressionLanguage();
+
+        return preg_replace_callback('/{{(.*?)}}/U', function ($matches) use ($expressionLanguage) {
+            return $expressionLanguage->evaluate(trim($matches[1]), ['data' => $this->expressionLanguageData]);
+        }, $template);
+    }
 }

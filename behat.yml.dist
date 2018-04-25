@@ -8,6 +8,8 @@ default:
                 - App\Features\Context\JsonContext:
                     jsonInspector: '@json_inspector'
                     jsonSchemaBaseUrl: 'features/json_schema/'
+                - App\Features\Context\DoctrineContext:
+                    doctrine: '@doctrine'
 
     extensions:
         Behat\Symfony2Extension:
