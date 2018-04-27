@@ -41,7 +41,7 @@ class Attempt
      *
      * @ORM\Column(type="integer")
      */
-    private $step;
+    private $step ;
 
     /**
      * @var Card
@@ -75,7 +75,7 @@ class Attempt
     /**
      * @return Match
      */
-    public function getMatch(): Match
+    public function getMatch(): ?Match
     {
         return $this->match;
     }
@@ -95,7 +95,7 @@ class Attempt
     /**
      * @return Card
      */
-    public function getCard(): Card
+    public function getCard(): ?Card
     {
         return $this->card;
     }
@@ -115,7 +115,7 @@ class Attempt
     /**
      * @return int
      */
-    public function getStep(): int
+    public function getStep(): ?int
     {
         return $this->step;
     }
@@ -135,7 +135,7 @@ class Attempt
     /**
      * @return \DateTime
      */
-    public function getPresentedAt(): \DateTime
+    public function getPresentedAt(): ?\DateTime
     {
         return $this->presentedAt;
     }
@@ -155,7 +155,7 @@ class Attempt
     /**
      * @return int
      */
-    public function getPresentedFor(): int
+    public function getPresentedFor(): ?int
     {
         return $this->presentedFor;
     }
@@ -175,7 +175,7 @@ class Attempt
     /**
      * @return int
      */
-    public function getOutcome(): int
+    public function getOutcome(): ?int
     {
         return $this->outcome;
     }
