@@ -27,10 +27,7 @@ class MatchTypeTest extends TypeTestCase
         $object->setNbCards(30);
         $object->setNbPlayers(6);
         $object->setNbTeams(3);
-        $object->setStartedAt(\DateTime::createFromFormat('U', '1500000000'));
-        $object->setStartedDate('2017-07-14');
-        $object->setStartedTime('02:40:00');
-        $object->setStartedTz('+00:00');
+        $object->setStartedAt('2017-07-14T02:40:00+00:00');
 
         // submit the data to the form directly
         $form->submit($formData);
@@ -60,10 +57,7 @@ class MatchTypeTest extends TypeTestCase
         $object->setNbCards(30);
         $object->setNbPlayers(6);
         $object->setNbTeams(3);
-        $object->setStartedAt(\DateTime::createFromFormat('U', '1500000000'));
-        $object->setStartedDate('2017-07-14');
-        $object->setStartedTime('08:40:00');
-        $object->setStartedTz('+06:00');
+        $object->setStartedAt('2017-07-14T08:40:00+06:00');
 
         // submit the data to the form directly
         $form->submit($formData);

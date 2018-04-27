@@ -31,5 +31,5 @@ class AttemptType extends AbstractType
             ->add('presented_for', IntegerType::class)
             ->add('outcome', IntegerType::class)
         ;
-   }
+    }
 }

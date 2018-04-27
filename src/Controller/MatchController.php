@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Behavior\JsonRequestContentTrait;
 use App\Entity\Match;
 use App\Form\MatchType;
+use App\Form\Model\CreateMatchModel;
 use App\Manager\MatchManager;
 use Doctrine\ORM\EntityManagerInterface;
 use JMS\Serializer\ArrayTransformerInterface;
@@ -54,12 +55,19 @@ class MatchController extends Controller
      */
     public function create(Request $request)
     {
-        $match = new Match();
-        $form = $this->createForm(MatchType::class, $match);
+        $model = new CreateMatchModel();
+        $form = $this->createForm(MatchType::class, $model);
 
         $form->submit($this->getJsonRequestContent($request));
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $match = new Match(
+                $model->getNbCards(),
+                $model->getDifficulty(),
+                $model->getNbPlayers(),
+                $model->getNbTeams(),
+                $model->getStartedAt()
+            );
             $this->entityManager->persist($match);
             $this->entityManager->flush();
 

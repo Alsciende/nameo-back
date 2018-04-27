@@ -38,12 +38,12 @@ class AttemptTypeTest extends TypeTestCase
 
     protected function setUp()
     {
-        $this->match = new Match();
+        $this->match = $this->createMock(Match::class);
         $this->matchTransformer = $this->createMock(MatchToIdTransformer::class);
         $this->matchTransformer->method('transform')->willReturn('fu');
         $this->matchTransformer->method('reverseTransform')->with('fu')->willReturn($this->match);
 
-        $this->card = new Card('bar');
+        $this->card = $this->createMock(Card::class);
         $this->cardTransformer = $this->createMock(CardToIdTransformer::class);
         $this->cardTransformer->method('transform')->willReturn('bar');
         $this->cardTransformer->method('reverseTransform')->with('bar')->willReturn($this->card);

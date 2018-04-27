@@ -33,28 +33,28 @@ class Match
      *
      * @ORM\Column(type="integer")
      */
-    private $nbCards = 40;
+    private $nbCards;
 
     /**
      * @var int
      *
      * @ORM\Column(type="integer")
      */
-    private $difficulty = 0;
+    private $difficulty;
 
     /**
      * @var int
      *
      * @ORM\Column(type="integer")
      */
-    private $nbPlayers = 4;
+    private $nbPlayers;
 
     /**
      * @var int
      *
      * @ORM\Column(type="integer")
      */
-    private $nbTeams = 2;
+    private $nbTeams;
 
     /**
      * @var \DateTime
@@ -68,21 +68,21 @@ class Match
      *
      * @ORM\Column(type="string",length=10)
      */
-    private $startedDate = '';
+    private $startedDate;
 
     /**
      * @var string
      *
      * @ORM\Column(type="string",length=8)
      */
-    private $startedTime = '';
+    private $startedTime;
 
     /**
      * @var string
      *
      * @ORM\Column(type="string",length=6)
      */
-    private $startedTz = '';
+    private $startedTz;
 
     /**
      * @var ArrayCollection
@@ -92,9 +92,18 @@ class Match
      */
     private $cards;
 
-    public function __construct()
+    public function __construct(int $nbCards, int $difficulty, int $nbPlayers, int $nbTeams, string $startedAt)
     {
-        $this->startedAt = new \DateTime();
+        $this->nbCards = $nbCards;
+        $this->difficulty = $difficulty;
+        $this->nbPlayers = $nbPlayers;
+        $this->nbTeams = $nbTeams;
+
+        $this->startedAt = \DateTime::createFromFormat(\DateTime::RFC3339, $startedAt);
+        $this->startedDate = $this->startedAt->format('Y-m-d');
+        $this->startedTime = $this->startedAt->format('H:i:s');
+        $this->startedTz = $this->startedAt->getTimezone()->getName();
+
         $this->cards = new ArrayCollection();
     }
 

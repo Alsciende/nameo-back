@@ -41,7 +41,7 @@ class Attempt
      *
      * @ORM\Column(type="integer")
      */
-    private $step ;
+    private $step;
 
     /**
      * @var Card

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form\Model;
 
 use Symfony\Component\Validator\Constraints as Assert;
@@ -7,80 +9,52 @@ use Symfony\Component\Validator\Constraints as Assert;
 class CreateMatchModel
 {
     /**
-     * @var int|null
-     *
      * @Assert\NotBlank()
+     * @Assert\Type("int")
      */
     private $nbCards = 40;
 
     /**
-     * @var int|null
-     *
      * @Assert\NotBlank()
+     * @Assert\Type("int")
      * @Assert\Range(min="0",max="5")
      */
     private $difficulty = 0;
 
     /**
-     * @var int|null
-     *
      * @Assert\NotBlank()
+     * @Assert\Type("int")
      * @Assert\Range(min="4")
      */
     private $nbPlayers = 4;
 
     /**
-     * @var int|null
-     *
+     * @Assert\NotBlank()
+     * @Assert\Type("int")
      * @Assert\Range(min="2")
      */
     private $nbTeams = 2;
 
     /**
-     * @var \DateTime|null
-     *
      * @Assert\NotBlank()
+     * @Assert\Type("string")
      */
     private $startedAt;
 
     /**
-     * @var string|null
-     *
-     * @Assert\NotBlank()
-     * @Assert\Length(min="10",max="10")
+     * @return mixed
      */
-    private $startedDate = '';
-
-    /**
-     * @var string|null
-     *
-     * @Assert\NotBlank()
-     * @Assert\Length(max="8",max="8")
-     */
-    private $startedTime = '';
-
-    /**
-     * @var string|null
-     *
-     * @Assert\NotBlank()
-     * @Assert\Length(max="6",max="6")
-     */
-    private $startedTz = '';
-
-    /**
-     * @return int|null
-     */
-    public function getNbCards(): ?int
+    public function getNbCards()
     {
         return $this->nbCards;
     }
 
     /**
-     * @param int|null $nbCards
+     * @param mixed $nbCards
      *
      * @return self
      */
-    public function setNbCards(?int $nbCards): self
+    public function setNbCards($nbCards): self
     {
         $this->nbCards = $nbCards;
 
@@ -88,19 +62,19 @@ class CreateMatchModel
     }
 
     /**
-     * @return int|null
+     * @return mixed
      */
-    public function getDifficulty(): ?int
+    public function getDifficulty()
     {
         return $this->difficulty;
     }
 
     /**
-     * @param int|null $difficulty
+     * @param mixed $difficulty
      *
      * @return self
      */
-    public function setDifficulty(?int $difficulty): self
+    public function setDifficulty($difficulty): self
     {
         $this->difficulty = $difficulty;
 
@@ -108,19 +82,19 @@ class CreateMatchModel
     }
 
     /**
-     * @return int|null
+     * @return mixed
      */
-    public function getNbPlayers(): ?int
+    public function getNbPlayers()
     {
         return $this->nbPlayers;
     }
 
     /**
-     * @param int|null $nbPlayers
+     * @param mixed $nbPlayers
      *
      * @return self
      */
-    public function setNbPlayers(?int $nbPlayers): self
+    public function setNbPlayers($nbPlayers): self
     {
         $this->nbPlayers = $nbPlayers;
 
@@ -128,19 +102,19 @@ class CreateMatchModel
     }
 
     /**
-     * @return int|null
+     * @return mixed
      */
-    public function getNbTeams(): ?int
+    public function getNbTeams()
     {
         return $this->nbTeams;
     }
 
     /**
-     * @param int|null $nbTeams
+     * @param mixed $nbTeams
      *
      * @return self
      */
-    public function setNbTeams(?int $nbTeams): self
+    public function setNbTeams($nbTeams): self
     {
         $this->nbTeams = $nbTeams;
 
@@ -148,81 +122,21 @@ class CreateMatchModel
     }
 
     /**
-     * @return \DateTime|null
+     * @return mixed
      */
-    public function getStartedAt(): ?\DateTime
+    public function getStartedAt()
     {
         return $this->startedAt;
     }
 
     /**
-     * @param \DateTime|null $startedAt
+     * @param mixed $startedAt
      *
      * @return self
      */
-    public function setStartedAt(?\DateTime $startedAt): self
+    public function setStartedAt($startedAt): self
     {
         $this->startedAt = $startedAt;
-
-        return $this;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getStartedDate(): ?string
-    {
-        return $this->startedDate;
-    }
-
-    /**
-     * @param null|string $startedDate
-     *
-     * @return self
-     */
-    public function setStartedDate(?string $startedDate): self
-    {
-        $this->startedDate = $startedDate;
-
-        return $this;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getStartedTime(): ?string
-    {
-        return $this->startedTime;
-    }
-
-    /**
-     * @param null|string $startedTime
-     *
-     * @return self
-     */
-    public function setStartedTime(?string $startedTime): self
-    {
-        $this->startedTime = $startedTime;
-
-        return $this;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getStartedTz(): ?string
-    {
-        return $this->startedTz;
-    }
-
-    /**
-     * @param null|string $startedTz
-     *
-     * @return self
-     */
-    public function setStartedTz(?string $startedTz): self
-    {
-        $this->startedTz = $startedTz;
 
         return $this;
     }

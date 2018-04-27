@@ -37,9 +37,7 @@ class MatchManagerTest extends TestCase
 
         $this->card = new Card('test');
 
-        $this->match = new Match();
-        $this->match->setNbCards(1);
-        $this->match->setDifficulty(0);
+        $this->match = new Match(1, 0, 4, 2, '2017-07-14T02:40:00+00:00');
 
         $this->repository = $this->createMock(CardRepository::class);
         $this->repository->method('sortedByDifficulty')->willReturn([[$this->card], []]);

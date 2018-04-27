@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form\Model;
 
 use App\Entity\Card;
@@ -15,7 +17,7 @@ class CreateAttemptModel
     /**
      * @var int|null
      */
-    private $step ;
+    private $step;
 
     /**
      * @var Card|null

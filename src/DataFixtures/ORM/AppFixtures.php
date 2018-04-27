@@ -6,7 +6,6 @@ namespace App\DataFixtures\ORM;
 
 use App\Entity\Card;
 use App\Entity\Match;
-use App\Util\DateTimeNormalizer;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -32,19 +31,7 @@ class AppFixtures extends Fixture
 
     public function loadMatch(ObjectManager $manager)
     {
-        $match = new Match();
-        $match->setDifficulty(3);
-        $match->setNbCards(40);
-        $match->setNbPlayers(4);
-        $match->setNbTeams(2);
-
-        $startedAt = DateTimeNormalizer::create('2017-07-14T08:40:00+06:00');
-        $match->setStartedDate(DateTimeNormalizer::date($startedAt));
-        $match->setStartedTime(DateTimeNormalizer::time($startedAt));
-        $match->setStartedTz(DateTimeNormalizer::tz($startedAt));
-
-        $startedAt->setTimezone(new \DateTimeZone('+00:00'));
-        $match->setStartedAt($startedAt);
+        $match = new Match(40, 3, 4, 2, '2017-07-14T08:40:00+06:00');
 
         $manager->persist($match);
     }
