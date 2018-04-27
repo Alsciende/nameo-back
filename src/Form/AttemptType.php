@@ -8,7 +8,6 @@ use App\Form\DataTransformer\MatchToIdTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
@@ -36,11 +35,9 @@ class AttemptType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('match', TextType::class, [
-                'invalid_message' => 'That is not a valid match id',
-            ])
+            ->add('match', MatchSelectorType::class)
             ->add('step', IntegerType::class)
-            ->add('card', TextType::class)
+            ->add('card', CardSelectorType::class)
             ->add('presented_at', DateTimeType::class, [
                 'widget' => 'single_text',
                 'input' => 'datetime',
