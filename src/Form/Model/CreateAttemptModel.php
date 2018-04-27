@@ -4,55 +4,60 @@ declare(strict_types=1);
 
 namespace App\Form\Model;
 
-use App\Entity\Card;
-use App\Entity\Match;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class CreateAttemptModel
 {
     /**
-     * @var Match|null
+     * @Assert\NotBlank()
+     * @Assert\Type("object")
      */
     private $match;
 
     /**
-     * @var int|null
+     * @Assert\NotBlank()
+     * @Assert\Type("int")
      */
     private $step;
 
     /**
-     * @var Card|null
+     * @Assert\NotBlank()
+     * @Assert\Type("object")
      */
     private $card;
 
     /**
-     * @var \DateTime|null
+     * @Assert\NotBlank()
+     * @Assert\Type("string")
      */
     private $presentedAt;
 
     /**
-     * @var int|null
+     * @Assert\NotBlank()
+     * @Assert\Type("int")
      */
     private $presentedFor;
 
     /**
-     * @var int|null
+     * @Assert\NotBlank()
+     * @Assert\Type("int")
      */
     private $outcome;
 
     /**
-     * @return Match|null
+     * @return mixed
      */
-    public function getMatch(): ?Match
+    public function getMatch()
     {
         return $this->match;
     }
 
     /**
-     * @param Match|null $match
+     * @param mixed $match
      *
      * @return self
      */
-    public function setMatch(?Match $match): self
+    public function setMatch($match): self
     {
         $this->match = $match;
 
@@ -60,19 +65,19 @@ class CreateAttemptModel
     }
 
     /**
-     * @return int|null
+     * @return mixed
      */
-    public function getStep(): ?int
+    public function getStep()
     {
         return $this->step;
     }
 
     /**
-     * @param int|null $step
+     * @param mixed $step
      *
      * @return self
      */
-    public function setStep(?int $step): self
+    public function setStep($step): self
     {
         $this->step = $step;
 
@@ -80,19 +85,19 @@ class CreateAttemptModel
     }
 
     /**
-     * @return Card|null
+     * @return mixed
      */
-    public function getCard(): ?Card
+    public function getCard()
     {
         return $this->card;
     }
 
     /**
-     * @param Card|null $card
+     * @param mixed $card
      *
      * @return self
      */
-    public function setCard(?Card $card): self
+    public function setCard($card): self
     {
         $this->card = $card;
 
@@ -100,19 +105,19 @@ class CreateAttemptModel
     }
 
     /**
-     * @return \DateTime|null
+     * @return mixed
      */
-    public function getPresentedAt(): ?\DateTime
+    public function getPresentedAt()
     {
         return $this->presentedAt;
     }
 
     /**
-     * @param \DateTime|null $presentedAt
+     * @param mixed $presentedAt
      *
      * @return self
      */
-    public function setPresentedAt(?\DateTime $presentedAt): self
+    public function setPresentedAt($presentedAt): self
     {
         $this->presentedAt = $presentedAt;
 
@@ -120,19 +125,19 @@ class CreateAttemptModel
     }
 
     /**
-     * @return int|null
+     * @return mixed
      */
-    public function getPresentedFor(): ?int
+    public function getPresentedFor()
     {
         return $this->presentedFor;
     }
 
     /**
-     * @param int|null $presentedFor
+     * @param mixed $presentedFor
      *
      * @return self
      */
-    public function setPresentedFor(?int $presentedFor): self
+    public function setPresentedFor($presentedFor): self
     {
         $this->presentedFor = $presentedFor;
 
@@ -140,19 +145,19 @@ class CreateAttemptModel
     }
 
     /**
-     * @return int|null
+     * @return mixed
      */
-    public function getOutcome(): ?int
+    public function getOutcome()
     {
         return $this->outcome;
     }
 
     /**
-     * @param int|null $outcome
+     * @param mixed $outcome
      *
      * @return self
      */
-    public function setOutcome(?int $outcome): self
+    public function setOutcome($outcome): self
     {
         $this->outcome = $outcome;
 

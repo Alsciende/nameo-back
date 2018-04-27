@@ -5,16 +5,17 @@ namespace App\Tests\Form;
 use App\Entity\Attempt;
 use App\Entity\Card;
 use App\Entity\Match;
-use App\Form\AttemptType;
 use App\Form\CardSelectorType;
 use App\Form\DataTransformer\CardToIdTransformer;
 use App\Form\DataTransformer\MatchToIdTransformer;
 use App\Form\MatchSelectorType;
 use App\Form\Model\CreateAttemptModel;
+use App\Form\Model\CreateResultModel;
+use App\Form\ResultType;
 use Symfony\Component\Form\PreloadedExtension;
 use Symfony\Component\Form\Test\TypeTestCase;
 
-class AttemptTypeTest extends TypeTestCase
+class ResultTypeTest extends TypeTestCase
 {
     /**
      * @var Match
@@ -41,7 +42,7 @@ class AttemptTypeTest extends TypeTestCase
         $this->match = $this->createMock(Match::class);
         $this->matchTransformer = $this->createMock(MatchToIdTransformer::class);
         $this->matchTransformer->method('transform')->willReturn('fu');
-        $this->matchTransformer->method('reverseTransform')->with('fu')->willReturn($this->match);
+        $this->matchTransformer->method('reverseTransform')->willReturn($this->match);
 
         $this->card = $this->createMock(Card::class);
         $this->cardTransformer = $this->createMock(CardToIdTransformer::class);
@@ -62,25 +63,34 @@ class AttemptTypeTest extends TypeTestCase
     public function testSubmitValidData()
     {
         $formData = [
-            'match'         => 'fu',
-            'step'          => 1,
-            'card'          => 'bar',
-            'presented_at'  => '2017-07-14T02:40:00+00:00',
-            'presented_for' => 14,
-            'outcome'       => 0,
+            'match'    => 'fu',
+            'attempts' => [
+                [
+                    'step'          => 1,
+                    'card'          => 'bar',
+                    'presented_at'  => '2017-07-14T02:40:00+00:00',
+                    'presented_for' => 14,
+                    'outcome'       => 0,
+                ],
+            ],
+
         ];
 
-        $objectToCompare = new CreateAttemptModel();
+        $objectToCompare = new CreateResultModel();
         // $objectToCompare will retrieve data from the form submission; pass it as the second argument
-        $form = $this->factory->create(AttemptType::class, $objectToCompare);
+        $form = $this->factory->create(ResultType::class, $objectToCompare);
 
-        $object = new CreateAttemptModel();
-        $object->setCard($this->card);
+        $attempt = new CreateAttemptModel();
+        $attempt->setCard($this->card);
+        $attempt->setMatch($this->match);
+        $attempt->setOutcome(Attempt::OUTCOME_ACCEPTED);
+        $attempt->setPresentedAt(\DateTime::createFromFormat('U', '1500000000'));
+        $attempt->setPresentedFor(14);
+        $attempt->setStep(1);
+
+        $object = new CreateResultModel();
         $object->setMatch($this->match);
-        $object->setOutcome(Attempt::OUTCOME_ACCEPTED);
-        $object->setPresentedAt(\DateTime::createFromFormat('U', '1500000000'));
-        $object->setPresentedFor(14);
-        $object->setStep(1);
+        $object->setAttempts([$attempt]);
 
         // submit the data to the form directly
         $form->submit($formData);

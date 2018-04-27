@@ -28,7 +28,7 @@ class CardToIdTransformerTest extends TestCase
         $this->match->method('getId')->willReturn('fu');
 
         $map = [
-            [Card::class, 'fu', $this->match]
+            [Card::class, 'fu', $this->match],
         ];
         $em = $this->createMock(EntityManagerInterface::class);
         $em->method('find')->with($this->equalTo(Card::class))->will($this->returnValueMap($map));

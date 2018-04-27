@@ -10,13 +10,13 @@ class MatchTypeTest extends TypeTestCase
 {
     public function testSubmitValidData()
     {
-        $formData = array(
-            'nb_cards' => 30,
+        $formData = [
+            'nb_cards'   => 30,
             'difficulty' => 2,
             'nb_players' => 6,
-            'nb_teams' => 3,
-            'started_at' => '2017-07-14T02:40:00+00:00'
-        );
+            'nb_teams'   => 3,
+            'started_at' => '2017-07-14T02:40:00+00:00',
+        ];
 
         $objectToCompare = new CreateMatchModel();
         // $objectToCompare will retrieve data from the form submission; pass it as the second argument
@@ -40,13 +40,13 @@ class MatchTypeTest extends TypeTestCase
 
     public function testSubmitValidDataNotUTC()
     {
-        $formData = array(
-            'nb_cards' => 30,
+        $formData = [
+            'nb_cards'   => 30,
             'difficulty' => 2,
             'nb_players' => 6,
-            'nb_teams' => 3,
-            'started_at' => '2017-07-14T08:40:00+06:00'
-        );
+            'nb_teams'   => 3,
+            'started_at' => '2017-07-14T08:40:00+06:00',
+        ];
 
         $objectToCompare = new CreateMatchModel();
         // $objectToCompare will retrieve data from the form submission; pass it as the second argument

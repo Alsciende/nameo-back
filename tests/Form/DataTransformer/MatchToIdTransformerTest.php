@@ -28,7 +28,7 @@ class MatchToIdTransformerTest extends TestCase
         $this->match->method('getId')->willReturn('fu');
 
         $map = [
-            [Match::class, 'fu', $this->match]
+            [Match::class, 'fu', $this->match],
         ];
         $em = $this->createMock(EntityManagerInterface::class);
         $em->method('find')->with($this->equalTo(Match::class))->will($this->returnValueMap($map));
