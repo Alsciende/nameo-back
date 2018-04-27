@@ -2,8 +2,8 @@
 
 namespace Tests\Form;
 
-use App\Entity\Match;
 use App\Form\MatchType;
+use App\Form\Model\CreateMatchModel;
 use Symfony\Component\Form\Test\TypeTestCase;
 
 class MatchTypeTest extends TypeTestCase
@@ -18,11 +18,11 @@ class MatchTypeTest extends TypeTestCase
             'started_at' => '2017-07-14T02:40:00+00:00'
         );
 
-        $objectToCompare = new Match();
+        $objectToCompare = new CreateMatchModel();
         // $objectToCompare will retrieve data from the form submission; pass it as the second argument
         $form = $this->factory->create(MatchType::class, $objectToCompare);
 
-        $object = new Match();
+        $object = new CreateMatchModel();
         $object->setDifficulty(2);
         $object->setNbCards(30);
         $object->setNbPlayers(6);
@@ -51,11 +51,11 @@ class MatchTypeTest extends TypeTestCase
             'started_at' => '2017-07-14T08:40:00+06:00'
         );
 
-        $objectToCompare = new Match();
+        $objectToCompare = new CreateMatchModel();
         // $objectToCompare will retrieve data from the form submission; pass it as the second argument
         $form = $this->factory->create(MatchType::class, $objectToCompare);
 
-        $object = new Match();
+        $object = new CreateMatchModel();
         $object->setDifficulty(2);
         $object->setNbCards(30);
         $object->setNbPlayers(6);
