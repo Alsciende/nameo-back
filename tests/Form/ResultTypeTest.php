@@ -63,7 +63,6 @@ class ResultTypeTest extends TypeTestCase
     public function testSubmitValidData()
     {
         $formData = [
-            'match'    => 'fu',
             'attempts' => [
                 [
                     'step'          => 1,
@@ -77,6 +76,7 @@ class ResultTypeTest extends TypeTestCase
         ];
 
         $objectToCompare = new CreateResultModel();
+        $objectToCompare->setMatch($this->match);
         // $objectToCompare will retrieve data from the form submission; pass it as the second argument
         $form = $this->factory->create(ResultType::class, $objectToCompare);
 

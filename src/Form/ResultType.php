@@ -20,7 +20,6 @@ class ResultType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('match', MatchSelectorType::class)
             ->add('attempts', CollectionType::class, [
                 'entry_type' => AttemptType::class,
                 'allow_add' => true,
