@@ -10,12 +10,6 @@ class CreateAttemptModel
 {
     /**
      * @Assert\NotBlank()
-     * @Assert\Type("object")
-     */
-    private $match;
-
-    /**
-     * @Assert\NotBlank()
      * @Assert\Type("int")
      */
     private $step;
@@ -29,6 +23,7 @@ class CreateAttemptModel
     /**
      * @Assert\NotBlank()
      * @Assert\Type("string")
+     * @Assert\Length(min="25",max="25")
      */
     private $presentedAt;
 
@@ -43,26 +38,6 @@ class CreateAttemptModel
      * @Assert\Type("int")
      */
     private $outcome;
-
-    /**
-     * @return mixed
-     */
-    public function getMatch()
-    {
-        return $this->match;
-    }
-
-    /**
-     * @param mixed $match
-     *
-     * @return self
-     */
-    public function setMatch($match): self
-    {
-        $this->match = $match;
-
-        return $this;
-    }
 
     /**
      * @return mixed

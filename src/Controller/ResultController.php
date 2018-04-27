@@ -11,7 +11,7 @@ use App\Form\Model\CreateResultModel;
 use App\Form\ResultType;
 use Doctrine\ORM\EntityManagerInterface;
 use JMS\Serializer\ArrayTransformerInterface;
-use JMS\Serializer\SerializationContext;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -54,26 +54,23 @@ class ResultController extends Controller
 
         $form->submit($this->getJsonRequestContent($request));
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()/* && $form->isValid()*/) {
             foreach ($model->getAttempts() as $attemptModel) {
-                $attempt = new Attempt();
-                $attempt->setMatch($match);
-                $attempt->setStep($attemptModel->getStep());
-                $attempt->setPresentedFor($attemptModel->getPresentedFor());
-                $attempt->setPresentedAt($attemptModel->getPresentedAt());
-                $attempt->setOutcome($attemptModel->getOutcome());
+                $attempt = new Attempt(
+                    $match,
+                    $attemptModel->getStep(),
+                    $attemptModel->getCard(),
+                    $attemptModel->getPresentedAt(),
+                    $attemptModel->getPresentedFor(),
+                    $attemptModel->getOutcome()
+                );
 
                 $this->entityManager->persist($attempt);
             }
 
             $this->entityManager->flush();
 
-            return new JsonResponse(
-                $this->normalizer->toArray(
-                    $match,
-                    SerializationContext::create()->setGroups(['match'])
-                )
-            );
+            return new JsonResponse(['success' => true]);
         }
 
         return new JsonResponse($this->normalizer->toArray($form->getErrors(true)));

@@ -96,7 +96,7 @@ class ApiContext implements Context
      */
     public function requestPath($path, $method = null)
     {
-        $this->setRequestPath($path);
+        $this->setRequestPath($this->parseExpressionLanguageTemplate($path));
         if (null === $method) {
             $this->setRequestMethod('GET', false);
         } else {

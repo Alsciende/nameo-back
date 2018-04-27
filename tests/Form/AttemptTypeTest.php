@@ -76,9 +76,8 @@ class AttemptTypeTest extends TypeTestCase
 
         $object = new CreateAttemptModel();
         $object->setCard($this->card);
-        $object->setMatch($this->match);
         $object->setOutcome(Attempt::OUTCOME_ACCEPTED);
-        $object->setPresentedAt(\DateTime::createFromFormat('U', '1500000000'));
+        $object->setPresentedAt('2017-07-14T02:40:00+00:00');
         $object->setPresentedFor(14);
         $object->setStep(1);
 

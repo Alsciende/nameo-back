@@ -72,6 +72,16 @@ class Attempt
      */
     private $outcome;
 
+    public function __construct(Match $match, int $step, Card $card, string $presentedAt, int $presentedFor, int $outcome)
+    {
+        $this->match = $match;
+        $this->step = $step;
+        $this->card = $card;
+        $this->presentedAt = \DateTime::createFromFormat(\DateTime::RFC3339, $presentedAt);
+        $this->presentedFor = $presentedFor;
+        $this->outcome = $outcome;
+    }
+
     /**
      * @return Match
      */

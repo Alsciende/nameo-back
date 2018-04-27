@@ -72,7 +72,6 @@ class ResultTypeTest extends TypeTestCase
                     'outcome'       => 0,
                 ],
             ],
-
         ];
 
         $objectToCompare = new CreateResultModel();
@@ -82,9 +81,8 @@ class ResultTypeTest extends TypeTestCase
 
         $attempt = new CreateAttemptModel();
         $attempt->setCard($this->card);
-        $attempt->setMatch($this->match);
         $attempt->setOutcome(Attempt::OUTCOME_ACCEPTED);
-        $attempt->setPresentedAt(\DateTime::createFromFormat('U', '1500000000'));
+        $attempt->setPresentedAt('2017-07-14T02:40:00+00:00');
         $attempt->setPresentedFor(14);
         $attempt->setStep(1);
 
