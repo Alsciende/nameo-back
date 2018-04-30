@@ -107,64 +107,44 @@ class Match
         $this->cards = new ArrayCollection();
     }
 
+    /**
+     * @return int
+     */
     public function getNbCards(): int
     {
         return $this->nbCards;
     }
 
-    public function setNbCards(int $nbCards): self
-    {
-        $this->nbCards = $nbCards;
-
-        return $this;
-    }
-
+    /**
+     * @return int
+     */
     public function getDifficulty(): int
     {
         return $this->difficulty;
     }
 
-    public function setDifficulty(int $difficulty): self
-    {
-        $this->difficulty = $difficulty;
-
-        return $this;
-    }
-
+    /**
+     * @return int
+     */
     public function getNbPlayers(): int
     {
         return $this->nbPlayers;
     }
 
-    public function setNbPlayers(int $nbPlayers): self
-    {
-        $this->nbPlayers = $nbPlayers;
-
-        return $this;
-    }
-
+    /**
+     * @return int
+     */
     public function getNbTeams(): int
     {
         return $this->nbTeams;
     }
 
-    public function setNbTeams(int $nbTeams): self
-    {
-        $this->nbTeams = $nbTeams;
-
-        return $this;
-    }
-
+    /**
+     * @return \DateTime
+     */
     public function getStartedAt(): \DateTime
     {
         return $this->startedAt;
-    }
-
-    public function setStartedAt(\DateTime $startedAt): self
-    {
-        $this->startedAt = $startedAt;
-
-        return $this;
     }
 
     /**
@@ -236,39 +216,27 @@ class Match
         return $this->id;
     }
 
+    /**
+     * @return string
+     */
     public function getStartedDate(): string
     {
         return $this->startedDate;
     }
 
-    public function setStartedDate(string $startedDate): self
-    {
-        $this->startedDate = $startedDate;
-
-        return $this;
-    }
-
+    /**
+     * @return string
+     */
     public function getStartedTime(): string
     {
         return $this->startedTime;
     }
 
-    public function setStartedTime(string $startedTime): self
-    {
-        $this->startedTime = $startedTime;
-
-        return $this;
-    }
-
+    /**
+     * @return string
+     */
     public function getStartedTz(): string
     {
         return $this->startedTz;
-    }
-
-    public function setStartedTz(string $startedTz): self
-    {
-        $this->startedTz = $startedTz;
-
-        return $this;
     }
 }

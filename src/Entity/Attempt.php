@@ -91,35 +91,11 @@ class Attempt
     }
 
     /**
-     * @param Match $match
-     *
-     * @return $this
-     */
-    public function setMatch(Match $match): self
-    {
-        $this->match = $match;
-
-        return $this;
-    }
-
-    /**
      * @return Card
      */
     public function getCard(): ?Card
     {
         return $this->card;
-    }
-
-    /**
-     * @param Card $card
-     *
-     * @return $this
-     */
-    public function setCard(Card $card): self
-    {
-        $this->card = $card;
-
-        return $this;
     }
 
     /**
@@ -131,35 +107,11 @@ class Attempt
     }
 
     /**
-     * @param int $step
-     *
-     * @return $this
-     */
-    public function setStep(int $step): self
-    {
-        $this->step = $step;
-
-        return $this;
-    }
-
-    /**
      * @return \DateTime
      */
     public function getPresentedAt(): ?\DateTime
     {
         return $this->presentedAt;
-    }
-
-    /**
-     * @param \DateTime $presentedAt
-     *
-     * @return $this
-     */
-    public function setPresentedAt(\DateTime $presentedAt): self
-    {
-        $this->presentedAt = $presentedAt;
-
-        return $this;
     }
 
     /**
@@ -171,35 +123,11 @@ class Attempt
     }
 
     /**
-     * @param int $presentedFor
-     *
-     * @return $this
-     */
-    public function setPresentedFor(int $presentedFor): self
-    {
-        $this->presentedFor = $presentedFor;
-
-        return $this;
-    }
-
-    /**
      * @return int
      */
     public function getOutcome(): ?int
     {
         return $this->outcome;
-    }
-
-    /**
-     * @param int $outcome
-     *
-     * @return $this
-     */
-    public function setOutcome(int $outcome): self
-    {
-        $this->outcome = $outcome;
-
-        return $this;
     }
 
     /**
