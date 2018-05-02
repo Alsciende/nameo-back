@@ -9,7 +9,7 @@ use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="attempts",indexes={@ORM\Index(columns={"step","presented_at"})})
+ * @ORM\Table(name="attempts",indexes={@ORM\Index(name="find_newer_than",columns={"step","presented_at"})})
  *
  * @Serializer\ExclusionPolicy("all")
  */

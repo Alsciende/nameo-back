@@ -26,12 +26,18 @@ class CardProjection
      *
      * @ORM\Column(type="integer")
      */
-    private $presentedForAvg;
+    private $presentedForSum;
 
-    public function __construct(Card $card, int $presentedForAvg)
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="integer")
+     */
+    private $nbMatches;
+
+    public function __construct(Card $card)
     {
         $this->card = $card;
-        $this->presentedForAvg = $presentedForAvg;
     }
 
     /**
@@ -45,8 +51,40 @@ class CardProjection
     /**
      * @return int
      */
-    public function getPresentedForAvg(): int
+    public function getPresentedForSum(): int
     {
-        return $this->presentedForAvg;
+        return $this->presentedForSum;
+    }
+
+    /**
+     * @param int $presentedForSum
+     *
+     * @return self
+     */
+    public function setPresentedForSum(int $presentedForSum): self
+    {
+        $this->presentedForSum = $presentedForSum;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNbMatches(): int
+    {
+        return $this->nbMatches;
+    }
+
+    /**
+     * @param int $nbMatches
+     *
+     * @return self
+     */
+    public function setNbMatches(int $nbMatches): self
+    {
+        $this->nbMatches = $nbMatches;
+
+        return $this;
     }
 }

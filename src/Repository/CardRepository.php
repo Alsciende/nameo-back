@@ -14,21 +14,4 @@ class CardRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Card::class);
     }
-
-    /**
-     * @return Card[][]
-     */
-    public function sortedByDifficulty(): array
-    {
-        $result = array_fill(0, Card::MAX_DIFFICULTY, []);
-
-        /** @var Card[] $cards */
-        $cards = $this->findAll();
-
-        foreach ($cards as $card) {
-            $result[$card->getDifficulty()][] = $card;
-        }
-
-        return $result;
-    }
 }

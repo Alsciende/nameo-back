@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Manager;
+namespace App\Service;
 
 use App\Distribution\DistributionInterface;
 use App\Entity\Card;
@@ -10,7 +10,7 @@ use App\Entity\Match;
 use App\Exception\NotEnoughCardsException;
 use App\Repository\CardRepository;
 
-class MatchManager
+class CardDrawingService
 {
     /**
      * @var DistributionInterface
@@ -20,12 +20,21 @@ class MatchManager
     /**
      * @var CardRepository
      */
-    private $repository;
+    private $cardRepository;
 
-    public function __construct(DistributionInterface $distribution, CardRepository $repository)
-    {
+    /**
+     * @var CardSortingService
+     */
+    private $sorting;
+
+    public function __construct(
+        DistributionInterface $distribution,
+        CardRepository $cardRepository,
+        CardSortingService $sorting
+    ) {
         $this->distribution = $distribution;
-        $this->repository = $repository;
+        $this->cardRepository = $cardRepository;
+        $this->sorting = $sorting;
     }
 
     /**
@@ -33,7 +42,7 @@ class MatchManager
      */
     public function drawCards(Match $match)
     {
-        $byDifficulty = $this->repository->sortedByDifficulty();
+        $byDifficulty = $this->sorting->sortCardsByDifficulty($this->cardRepository->findAll());
 
         $difficulties = $this->distribution->boundedAndCentered(
             0,

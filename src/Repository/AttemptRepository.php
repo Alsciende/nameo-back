@@ -16,6 +16,8 @@ class AttemptRepository extends ServiceEntityRepository
     }
 
     /**
+     * Index: find_newer_than
+     *
      * @return Attempt[]
      */
     public function findNewerThan(\DateTime $date): array

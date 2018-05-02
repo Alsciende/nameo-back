@@ -64,11 +64,12 @@ class Card
      * Card constructor.
      *
      * @param string $title
+     * @param int    $difficulty
      */
-    public function __construct(string $title)
+    public function __construct(string $title, int $difficulty = 0)
     {
         $this->title = $title;
-        $this->difficulty = 0;
+        $this->difficulty = $difficulty;
     }
 
     /**

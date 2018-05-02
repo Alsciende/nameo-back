@@ -8,7 +8,7 @@ use App\Behavior\JsonRequestContentTrait;
 use App\Entity\Match;
 use App\Form\MatchType;
 use App\Form\Model\CreateMatchModel;
-use App\Manager\MatchManager;
+use App\Service\CardDrawingService;
 use Doctrine\ORM\EntityManagerInterface;
 use JMS\Serializer\ArrayTransformerInterface;
 use JMS\Serializer\SerializationContext;
@@ -25,9 +25,9 @@ class MatchController extends Controller
     use JsonRequestContentTrait;
 
     /**
-     * @var MatchManager
+     * @var CardDrawingService
      */
-    private $manager;
+    private $drawing;
 
     /**
      * @var EntityManagerInterface
@@ -40,11 +40,11 @@ class MatchController extends Controller
     private $normalizer;
 
     public function __construct(
-        MatchManager $manager,
+        CardDrawingService $drawing,
         EntityManagerInterface $entityManager,
         ArrayTransformerInterface $normalizer
     ) {
-        $this->manager = $manager;
+        $this->drawing = $drawing;
         $this->entityManager = $entityManager;
         $this->normalizer = $normalizer;
     }
@@ -71,7 +71,7 @@ class MatchController extends Controller
             $this->entityManager->persist($match);
             $this->entityManager->flush();
 
-            $this->manager->drawCards($match);
+            $this->drawing->drawCards($match);
 
             return new JsonResponse(
                 $this->normalizer->toArray(
