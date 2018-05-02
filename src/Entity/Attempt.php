@@ -85,31 +85,31 @@ class Attempt
     /**
      * @return Match
      */
-    public function getMatch(): ?Match
+    public function getMatch(): Match
     {
         return $this->match;
     }
 
     /**
-     * @return Card
-     */
-    public function getCard(): ?Card
-    {
-        return $this->card;
-    }
-
-    /**
      * @return int
      */
-    public function getStep(): ?int
+    public function getStep(): int
     {
         return $this->step;
     }
 
     /**
+     * @return Card
+     */
+    public function getCard(): Card
+    {
+        return $this->card;
+    }
+
+    /**
      * @return \DateTime
      */
-    public function getPresentedAt(): ?\DateTime
+    public function getPresentedAt(): \DateTime
     {
         return $this->presentedAt;
     }
@@ -117,7 +117,7 @@ class Attempt
     /**
      * @return int
      */
-    public function getPresentedFor(): ?int
+    public function getPresentedFor(): int
     {
         return $this->presentedFor;
     }
@@ -125,7 +125,7 @@ class Attempt
     /**
      * @return int
      */
-    public function getOutcome(): ?int
+    public function getOutcome(): int
     {
         return $this->outcome;
     }

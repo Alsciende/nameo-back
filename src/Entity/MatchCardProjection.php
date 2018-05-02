@@ -37,11 +37,11 @@ class MatchCardProjection
      */
     private $presentedForSum;
 
-    public function __construct(Match $match, Card $card, int $presentedForSum)
+    public function __construct(Match $match, Card $card)
     {
         $this->match = $match;
         $this->card = $card;
-        $this->presentedForSum = $presentedForSum;
+        $this->presentedForSum = 0;
     }
 
     /**
@@ -66,5 +66,29 @@ class MatchCardProjection
     public function getPresentedForSum(): int
     {
         return $this->presentedForSum;
+    }
+
+    /**
+     * @param int $presentedForSum
+     *
+     * @return self
+     */
+    public function setPresentedForSum(int $presentedForSum): self
+    {
+        $this->presentedForSum = $presentedForSum;
+
+        return $this;
+    }
+
+    /**
+     * @param int $presentedFor
+     *
+     * @return self
+     */
+    public function addToPresentedForSum(int $presentedFor): self
+    {
+        $this->presentedForSum += $presentedFor;
+
+        return $this;
     }
 }
