@@ -52,7 +52,7 @@ class CreateMatchModel
     /**
      * @param mixed $nbCards
      *
-     * @return self
+     * @return $this
      */
     public function setNbCards($nbCards): self
     {
@@ -72,7 +72,7 @@ class CreateMatchModel
     /**
      * @param mixed $difficulty
      *
-     * @return self
+     * @return $this
      */
     public function setDifficulty($difficulty): self
     {
@@ -92,7 +92,7 @@ class CreateMatchModel
     /**
      * @param mixed $nbPlayers
      *
-     * @return self
+     * @return $this
      */
     public function setNbPlayers($nbPlayers): self
     {
@@ -112,7 +112,7 @@ class CreateMatchModel
     /**
      * @param mixed $nbTeams
      *
-     * @return self
+     * @return $this
      */
     public function setNbTeams($nbTeams): self
     {
@@ -132,7 +132,7 @@ class CreateMatchModel
     /**
      * @param mixed $startedAt
      *
-     * @return self
+     * @return $this
      */
     public function setStartedAt($startedAt): self
     {

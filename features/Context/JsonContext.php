@@ -12,6 +12,9 @@ use Behat\Behat\Context\Environment\InitializedContextEnvironment;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\PyStringNode;
 
+/**
+ * @see https://github.com/ubirak/rest-api-behat-extension
+ */
 class JsonContext implements Context
 {
     /**

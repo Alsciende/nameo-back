@@ -73,6 +73,16 @@ class Card
     }
 
     /**
+     * @param Card $card
+     *
+     * @return bool
+     */
+    public function isEqualTo(Card $card)
+    {
+        return $this->id === $card->id;
+    }
+
+    /**
      * @return string
      */
     public function getTitle(): string
@@ -83,7 +93,7 @@ class Card
     /**
      * @param string $title
      *
-     * @return self
+     * @return $this
      */
     public function setTitle(string $title): self
     {
@@ -103,7 +113,7 @@ class Card
     /**
      * @param null|string $link
      *
-     * @return self
+     * @return $this
      */
     public function setLink(?string $link): self
     {
@@ -123,7 +133,7 @@ class Card
     /**
      * @param int $difficulty
      *
-     * @return self
+     * @return $this
      */
     public function setDifficulty(int $difficulty): self
     {

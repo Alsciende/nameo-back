@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Attempt;
+use App\Entity\Match;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -31,5 +32,15 @@ class AttemptRepository extends ServiceEntityRepository
             ->setParameter('date', $date);
 
         return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @param Match $match
+     *
+     * @return Attempt[]
+     */
+    public function findByMatch(Match $match)
+    {
+        return $this->findBy(['match' => $match]);
     }
 }

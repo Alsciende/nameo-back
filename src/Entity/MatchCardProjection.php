@@ -71,7 +71,7 @@ class MatchCardProjection
     /**
      * @param int $presentedForSum
      *
-     * @return self
+     * @return $this
      */
     public function setPresentedForSum(int $presentedForSum): self
     {
@@ -81,13 +81,17 @@ class MatchCardProjection
     }
 
     /**
-     * @param int $presentedFor
+     * @param Attempt $attempt
      *
-     * @return self
+     * @return $this
      */
-    public function addToPresentedForSum(int $presentedFor): self
+    public function update(Attempt $attempt): self
     {
-        $this->presentedForSum += $presentedFor;
+        if (false === $this->card->isEqualTo($attempt->getCard())) {
+            throw new \LogicException('Trying to combine data from different cards.');
+        }
+
+        $this->presentedForSum += $attempt->getPresentedFor();
 
         return $this;
     }

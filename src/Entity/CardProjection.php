@@ -7,7 +7,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="App\Repository\CardProjectionRepository")
  * @ORM\Table(name="card_projections")
  */
 class CardProjection
@@ -38,6 +38,8 @@ class CardProjection
     public function __construct(Card $card)
     {
         $this->card = $card;
+        $this->presentedForSum = 0;
+        $this->nbMatches = 0;
     }
 
     /**
@@ -57,18 +59,6 @@ class CardProjection
     }
 
     /**
-     * @param int $presentedForSum
-     *
-     * @return self
-     */
-    public function setPresentedForSum(int $presentedForSum): self
-    {
-        $this->presentedForSum = $presentedForSum;
-
-        return $this;
-    }
-
-    /**
      * @return int
      */
     public function getNbMatches(): int
@@ -77,13 +67,18 @@ class CardProjection
     }
 
     /**
-     * @param int $nbMatches
+     * @param MatchCardProjection $projection
      *
-     * @return self
+     * @return $this
      */
-    public function setNbMatches(int $nbMatches): self
+    public function update(MatchCardProjection $projection): self
     {
-        $this->nbMatches = $nbMatches;
+        if (false === $this->card->isEqualTo($projection->getCard())) {
+            throw new \LogicException('Trying to combine data from different cards.');
+        }
+
+        $this->nbMatches++;
+        $this->presentedForSum += $projection->getPresentedForSum();
 
         return $this;
     }

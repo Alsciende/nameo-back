@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\Attempt;
+use App\Entity\Card;
+use App\Entity\CardProjection;
 use App\Entity\Match;
 use App\Entity\MatchCardProjection;
 use App\Repository\AttemptRepository;
-use App\Repository\CardRepository;
+use App\Repository\CardProjectionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ProjectionService
@@ -24,25 +26,25 @@ class ProjectionService
     private $attemptRepository;
 
     /**
-     * @var CardRepository
+     * @var CardProjectionRepository
      */
-    private $cardRepository;
+    private $cardProjectionRepository;
 
     /**
      * ProjectionService constructor.
      *
-     * @param EntityManagerInterface $entityManager
-     * @param AttemptRepository      $attemptRepository
-     * @param CardRepository         $cardRepository
+     * @param EntityManagerInterface   $entityManager
+     * @param AttemptRepository        $attemptRepository
+     * @param CardProjectionRepository $cardProjectionRepository
      */
     public function __construct(
         EntityManagerInterface $entityManager,
         AttemptRepository $attemptRepository,
-        CardRepository $cardRepository
+        CardProjectionRepository $cardProjectionRepository
     ) {
         $this->entityManager = $entityManager;
         $this->attemptRepository = $attemptRepository;
-        $this->cardRepository = $cardRepository;
+        $this->cardProjectionRepository = $cardProjectionRepository;
     }
 
     /**
@@ -50,31 +52,64 @@ class ProjectionService
      *
      * @return MatchCardProjection[]
      */
-    public function compileAttempts(array $attempts)
+    public function compileAttempts(array $attempts): array
     {
         /** @var MatchCardProjection[] $projections */
         $projections = [];
 
         foreach ($attempts as $attempt) {
-            if (!isset($projections[$attempt->getCard()->getId()])) {
-                $projections[$attempt->getCard()->getId()] = new MatchCardProjection($attempt->getMatch(), $attempt->getCard());
+            $cardId = $attempt->getCard()->getId();
+
+            if (!isset($projections[$cardId])) {
+                $projections[$cardId] = new MatchCardProjection($attempt->getMatch(), $attempt->getCard());
             }
 
-            $projections[$attempt->getCard()->getId()]->addToPresentedForSum($attempt->getPresentedFor());
+            $projections[$cardId]->update($attempt);
         }
 
         return $projections;
     }
 
     /**
+     * @param MatchCardProjection $matchCardProjection
+     */
+    public function applyProjection(MatchCardProjection $matchCardProjection)
+    {
+        $cardProjection = $this->cardProjectionRepository->findByProjection($matchCardProjection);
+
+        if (!$cardProjection instanceof CardProjection) {
+            $cardProjection = new CardProjection($matchCardProjection->getCard());
+            $this->entityManager->persist($cardProjection);
+        }
+
+        $cardProjection->update($matchCardProjection);
+    }
+
+    /**
      * @param Match $match
      */
-    public function createMatchCardProjections(Match $match)
+    public function createProjections(Match $match)
     {
-        $projections = $this->compileAttempts($this->attemptRepository->findBy(['match' => $match]));
+        foreach ($this->compileAttempts($this->attemptRepository->findByMatch($match)) as $matchCardProjection) {
+            $this->entityManager->persist($matchCardProjection);
+            $this->applyProjection($matchCardProjection);
+        }
+    }
 
-        foreach ($projections as $projection) {
-            $this->entityManager->persist($projection);
+    public function updateCardDifficulty()
+    {
+        $this->applyOrderToDifficulty($this->cardProjectionRepository->findAllCardsSortedByProjection());
+    }
+
+    /**
+     * @param Card[] $cards
+     */
+    public function applyOrderToDifficulty(array $cards)
+    {
+        $quantile = count($cards) / 5;
+
+        foreach ($cards as $i => $card) {
+            $card->setDifficulty(intval(ceil($i / $quantile)));
         }
     }
 }

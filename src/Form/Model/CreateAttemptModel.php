@@ -50,7 +50,7 @@ class CreateAttemptModel
     /**
      * @param mixed $step
      *
-     * @return self
+     * @return $this
      */
     public function setStep($step): self
     {
@@ -70,7 +70,7 @@ class CreateAttemptModel
     /**
      * @param mixed $card
      *
-     * @return self
+     * @return $this
      */
     public function setCard($card): self
     {
@@ -90,7 +90,7 @@ class CreateAttemptModel
     /**
      * @param mixed $presentedAt
      *
-     * @return self
+     * @return $this
      */
     public function setPresentedAt($presentedAt): self
     {
@@ -110,7 +110,7 @@ class CreateAttemptModel
     /**
      * @param mixed $presentedFor
      *
-     * @return self
+     * @return $this
      */
     public function setPresentedFor($presentedFor): self
     {
@@ -130,7 +130,7 @@ class CreateAttemptModel
     /**
      * @param mixed $outcome
      *
-     * @return self
+     * @return $this
      */
     public function setOutcome($outcome): self
     {

@@ -31,7 +31,7 @@ class CreateResultModel
     /**
      * @param mixed $match
      *
-     * @return self
+     * @return $this
      */
     public function setMatch($match): self
     {
@@ -51,7 +51,7 @@ class CreateResultModel
     /**
      * @param CreateAttemptModel[] $attempts
      *
-     * @return self
+     * @return $this
      */
     public function setAttempts(array $attempts): self
     {
