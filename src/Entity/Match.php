@@ -7,7 +7,6 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity()
@@ -27,54 +26,63 @@ class Match
      * @Serializer\Expose()
      * @Serializer\Groups({"match"})
      */
-    protected $id;
+    private $id;
 
     /**
      * @var int
      *
-     * @ORM\Column(type="integer",nullable=false)
-     *
-     * @Assert\NotBlank()
+     * @ORM\Column(type="integer")
      */
-    protected $nbCards = 40;
+    private $nbCards;
 
     /**
      * @var int
      *
-     * @ORM\Column(type="integer",nullable=false)
-     *
-     * @Assert\NotBlank()
-     * @Assert\Range(min="0",max="5")
+     * @ORM\Column(type="integer")
      */
-    protected $difficulty = 0;
+    private $difficulty;
 
     /**
      * @var int
      *
-     * @ORM\Column(type="integer",nullable=false)
-     *
-     * @Assert\NotBlank()
-     * @Assert\Range(min="4")
+     * @ORM\Column(type="integer")
      */
-    protected $nbPlayers = 4;
+    private $nbPlayers;
 
     /**
      * @var int
      *
-     * @ORM\Column(type="integer",nullable=false)
-     *
-     * @Assert\Range(min="2")
+     * @ORM\Column(type="integer")
      */
-    protected $nbTeams = 2;
+    private $nbTeams;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(type="datetime",nullable=false)
-     *
-     * @Assert\NotBlank()
+     * @ORM\Column(type="datetime")
      */
-    protected $startAt;
+    private $startedAt;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string",length=10)
+     */
+    private $startedDate;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string",length=8)
+     */
+    private $startedTime;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string",length=6)
+     */
+    private $startedTz;
 
     /**
      * @var ArrayCollection
@@ -82,72 +90,61 @@ class Match
      * @Serializer\Expose()
      * @Serializer\Groups({"match"})
      */
-    protected $cards;
+    private $cards;
 
-    public function __construct()
+    public function __construct(int $nbCards, int $difficulty, int $nbPlayers, int $nbTeams, string $startedAt)
     {
-        $this->startAt = new \DateTime();
+        $this->nbCards = $nbCards;
+        $this->difficulty = $difficulty;
+        $this->nbPlayers = $nbPlayers;
+        $this->nbTeams = $nbTeams;
+
+        $this->startedAt = \DateTime::createFromFormat(\DateTime::RFC3339, $startedAt);
+        $this->startedDate = $this->startedAt->format('Y-m-d');
+        $this->startedTime = $this->startedAt->format('H:i:s');
+        $this->startedTz = $this->startedAt->getTimezone()->getName();
+
         $this->cards = new ArrayCollection();
     }
 
+    /**
+     * @return int
+     */
     public function getNbCards(): int
     {
         return $this->nbCards;
     }
 
-    public function setNbCards(int $nbCards): self
-    {
-        $this->nbCards = $nbCards;
-
-        return $this;
-    }
-
+    /**
+     * @return int
+     */
     public function getDifficulty(): int
     {
         return $this->difficulty;
     }
 
-    public function setDifficulty(int $difficulty): self
-    {
-        $this->difficulty = $difficulty;
-
-        return $this;
-    }
-
+    /**
+     * @return int
+     */
     public function getNbPlayers(): int
     {
         return $this->nbPlayers;
     }
 
-    public function setNbPlayers(int $nbPlayers): self
-    {
-        $this->nbPlayers = $nbPlayers;
-
-        return $this;
-    }
-
+    /**
+     * @return int
+     */
     public function getNbTeams(): int
     {
         return $this->nbTeams;
     }
 
-    public function setNbTeams(int $nbTeams): self
+    /**
+     * @return \DateTime
+     */
+    public function getStartedAt(): \DateTime
     {
-        $this->nbTeams = $nbTeams;
-
-        return $this;
-    }
-
-    public function getStartAt(): \DateTime
-    {
-        return $this->startAt;
-    }
-
-    public function setStartAt(\DateTime $startAt): self
-    {
-        $this->startAt = $startAt;
-
-        return $this;
+        return $this->startedAt;
     }
 
     /**
@@ -161,7 +158,7 @@ class Match
     /**
      * @param array $cards
      *
-     * @return Match
+     * @return $this
      */
     public function setCards(iterable $cards): self
     {
@@ -174,7 +171,7 @@ class Match
     }
 
     /**
-     * @return Match
+     * @return $this
      */
     public function clearCards(): self
     {
@@ -186,7 +183,7 @@ class Match
     /**
      * @param Card $card
      *
-     * @return Match
+     * @return $this
      */
     public function addCard(Card $card): self
     {
@@ -200,7 +197,7 @@ class Match
     /**
      * @param Card $card
      *
-     * @return Match
+     * @return $this
      */
     public function removeCard(Card $card): self
     {
@@ -209,5 +206,37 @@ class Match
         }
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStartedDate(): string
+    {
+        return $this->startedDate;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStartedTime(): string
+    {
+        return $this->startedTime;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStartedTz(): string
+    {
+        return $this->startedTz;
     }
 }

@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="cards",uniqueConstraints={@ORM\UniqueConstraint(name="title_idx", columns={"title"})})
+ * @ORM\Table(name="cards",uniqueConstraints={@ORM\UniqueConstraint(columns={"title"})})
  *
  * @Serializer\ExclusionPolicy("all")
  */
@@ -28,7 +28,7 @@ class Card
      * @Serializer\Expose()
      * @Serializer\Groups({"match"})
      */
-    protected $id;
+    private $id;
 
     /**
      * @var string
@@ -41,14 +41,14 @@ class Card
      * @Serializer\Expose()
      * @Serializer\Groups({"match"})
      */
-    protected $title;
+    private $title;
 
     /**
      * @var string|null
      *
      * @ORM\Column(type="string",nullable=true)
      */
-    protected $link;
+    private $link;
 
     /**
      * @var int
@@ -58,17 +58,28 @@ class Card
      * @Assert\NotBlank()
      * @Assert\Range(min="0",max="5")
      */
-    protected $difficulty;
+    private $difficulty;
 
     /**
      * Card constructor.
      *
      * @param string $title
+     * @param int    $difficulty
      */
-    public function __construct(string $title)
+    public function __construct(string $title, int $difficulty = 0)
     {
         $this->title = $title;
-        $this->difficulty = 0;
+        $this->difficulty = $difficulty;
+    }
+
+    /**
+     * @param Card $card
+     *
+     * @return bool
+     */
+    public function isEqualTo(Card $card)
+    {
+        return $this->id === $card->id;
     }
 
     /**
@@ -82,7 +93,7 @@ class Card
     /**
      * @param string $title
      *
-     * @return self
+     * @return $this
      */
     public function setTitle(string $title): self
     {
@@ -102,7 +113,7 @@ class Card
     /**
      * @param null|string $link
      *
-     * @return self
+     * @return $this
      */
     public function setLink(?string $link): self
     {
@@ -122,12 +133,20 @@ class Card
     /**
      * @param int $difficulty
      *
-     * @return self
+     * @return $this
      */
     public function setDifficulty(int $difficulty): self
     {
         $this->difficulty = $difficulty;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
     }
 }

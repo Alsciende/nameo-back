@@ -4,30 +4,35 @@ declare(strict_types=1);
 
 namespace App\Form;
 
-use App\Form\Model\CreateMatchModel;
+use App\Form\DataTransformer\CardToIdTransformer;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class MatchType extends AbstractType
+class CardSelectorType extends AbstractType
 {
+    private $transformer;
+
+    public function __construct(CardToIdTransformer $transformer)
+    {
+        $this->transformer = $transformer;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('nb_cards', IntegerType::class)
-            ->add('difficulty', IntegerType::class)
-            ->add('nb_players', IntegerType::class)
-            ->add('nb_teams', IntegerType::class)
-            ->add('started_at', TextType::class)
-            ;
+        $builder->addModelTransformer($this->transformer);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => CreateMatchModel::class,
+            'invalid_message' => 'The selected match does not exist',
         ]);
+    }
+
+    public function getParent()
+    {
+        return TextType::class;
     }
 }

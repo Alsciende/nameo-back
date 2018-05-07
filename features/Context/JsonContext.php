@@ -9,11 +9,13 @@ use App\Features\Json\JsonSchema;
 use Assert\Assertion;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\Environment\InitializedContextEnvironment;
-use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\PyStringNode;
 
-class JsonContext implements Context, SnippetAcceptingContext
+/**
+ * @see https://github.com/ubirak/rest-api-behat-extension
+ */
+class JsonContext implements Context
 {
     /**
      * @var JsonInspector

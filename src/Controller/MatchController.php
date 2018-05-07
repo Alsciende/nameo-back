@@ -7,7 +7,8 @@ namespace App\Controller;
 use App\Behavior\JsonRequestContentTrait;
 use App\Entity\Match;
 use App\Form\MatchType;
-use App\Manager\MatchManager;
+use App\Form\Model\CreateMatchModel;
+use App\Service\CardDrawingService;
 use Doctrine\ORM\EntityManagerInterface;
 use JMS\Serializer\ArrayTransformerInterface;
 use JMS\Serializer\SerializationContext;
@@ -24,9 +25,9 @@ class MatchController extends Controller
     use JsonRequestContentTrait;
 
     /**
-     * @var MatchManager
+     * @var CardDrawingService
      */
-    private $manager;
+    private $drawing;
 
     /**
      * @var EntityManagerInterface
@@ -39,11 +40,11 @@ class MatchController extends Controller
     private $normalizer;
 
     public function __construct(
-        MatchManager $manager,
+        CardDrawingService $drawing,
         EntityManagerInterface $entityManager,
         ArrayTransformerInterface $normalizer
     ) {
-        $this->manager = $manager;
+        $this->drawing = $drawing;
         $this->entityManager = $entityManager;
         $this->normalizer = $normalizer;
     }
@@ -54,16 +55,23 @@ class MatchController extends Controller
      */
     public function create(Request $request)
     {
-        $match = new Match();
-        $form = $this->createForm(MatchType::class, $match);
+        $model = new CreateMatchModel();
+        $form = $this->createForm(MatchType::class, $model);
 
         $form->submit($this->getJsonRequestContent($request));
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $match = new Match(
+                $model->getNbCards(),
+                $model->getDifficulty(),
+                $model->getNbPlayers(),
+                $model->getNbTeams(),
+                $model->getStartedAt()
+            );
             $this->entityManager->persist($match);
             $this->entityManager->flush();
 
-            $this->manager->drawCards($match);
+            $this->drawing->drawCards($match);
 
             return new JsonResponse(
                 $this->normalizer->toArray(
@@ -73,6 +81,6 @@ class MatchController extends Controller
             );
         }
 
-        return new JsonResponse(null, 200);
+        return new JsonResponse($this->normalizer->toArray($form->getErrors(true)));
     }
 }
