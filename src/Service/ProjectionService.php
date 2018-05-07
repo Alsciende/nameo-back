@@ -96,7 +96,7 @@ class ProjectionService
         }
     }
 
-    public function updateCardDifficulty()
+    public function updateCardsDifficulty()
     {
         $this->applyOrderToDifficulty($this->cardProjectionRepository->findAllCardsSortedByProjection());
     }
@@ -109,7 +109,7 @@ class ProjectionService
         $quantile = count($cards) / 5;
 
         foreach ($cards as $i => $card) {
-            $card->setDifficulty(intval(ceil($i / $quantile)));
+            $card->setDifficulty(intval(floor($i / $quantile)));
         }
     }
 }
