@@ -214,4 +214,26 @@ class ApiContext implements Context
             return $expressionLanguage->evaluate(trim($matches[1]), ['data' => $this->expressionLanguageData]);
         }, $template);
     }
+
+    /**
+     * @Given the request :header header is :value
+     */
+    public function setRequestHeader($header, $value)
+    {
+        $this->server[strtoupper('HTTP_' . $header)] = $value;
+    }
+
+    /**
+     * @Then the response header :header is :expected
+     * @throws \Assert\AssertionFailedException
+     */
+    public function assertResponseHeaderIs($header, $expected)
+    {
+        $this->requireResponse();
+        Assertion::same(
+            $actual = $this->response->headers->get($header),
+            $expected,
+            sprintf('Expected response header %s, got %s.', $expected, $actual)
+        );
+    }
 }
