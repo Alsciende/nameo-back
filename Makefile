@@ -4,7 +4,7 @@ mappings:
 	bin/console doctrine:schema:validate --skip-sync
 
 phpcs:
-	vendor/bin/php-cs-fixer fix --dry-run --verbose --allow-risky=yes src/
+	vendor/bin/php-cs-fixer fix --dry-run --allow-risky=yes src/
 
 phpstan:
 	vendor/bin/phpstan analyse --configuration=phpstan.neon --level=7 src/

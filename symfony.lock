@@ -26,6 +26,9 @@
     "composer/semver": {
         "version": "1.4.2"
     },
+    "composer/xdebug-handler": {
+        "version": "1.1.0"
+    },
     "container-interop/container-interop": {
         "version": "1.2.0"
     },
@@ -239,9 +242,6 @@
             "ref": "c276fa48d4713de91eb410289b3b1834acb7e403"
         }
     },
-    "phpunit/phpunit-mock-objects": {
-        "version": "6.0.1"
-    },
     "psr/cache": {
         "version": "1.0.1"
     },
@@ -379,6 +379,15 @@
     },
     "symfony/lts": {
         "version": "4-dev"
+    },
+    "symfony/messenger": {
+        "version": "4.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.1",
+            "ref": "85ab0b55d90a8f3e29e1b685a71f5b37923a7f5e"
+        }
     },
     "symfony/monolog-bridge": {
         "version": "v4.0.8"
