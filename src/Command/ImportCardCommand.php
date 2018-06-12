@@ -46,8 +46,10 @@ class ImportCardCommand extends Command
             throw new \InvalidArgumentException('Cannot open file for reading.');
         }
 
+        $index = 0;
+
         while (false !== ($line = fgetcsv($handle))) {
-            $card = new Card($line[0]);
+            $card = new Card($line[0], $index++ % Card::MAX_DIFFICULTY);
             $card->setLink($line[2]);
             $this->entityManager->persist($card);
         }
