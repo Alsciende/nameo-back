@@ -11,7 +11,7 @@ Feature: Result
               {
                 "step": 1,
                 "card": "{{ data["cards"][0]["id"] }}",
-                "presented_at": "2017-07-14T02:40:00+00:00",
+                "presented_at": "1500000000",
                 "presented_for": 10,
                 "outcome": 1
               }

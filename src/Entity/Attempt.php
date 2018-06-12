@@ -77,7 +77,7 @@ class Attempt
         $this->match = $match;
         $this->step = $step;
         $this->card = $card;
-        $this->presentedAt = \DateTime::createFromFormat(\DateTime::RFC3339, $presentedAt);
+        $this->presentedAt = \DateTime::createFromFormat('U', $presentedAt);
         $this->presentedFor = $presentedFor;
         $this->outcome = $outcome;
     }

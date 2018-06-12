@@ -99,7 +99,7 @@ class Match
         $this->nbPlayers = $nbPlayers;
         $this->nbTeams = $nbTeams;
 
-        $this->startedAt = \DateTime::createFromFormat(\DateTime::RFC3339, $startedAt);
+        $this->startedAt = new \DateTime($startedAt);
         $this->startedDate = $this->startedAt->format('Y-m-d');
         $this->startedTime = $this->startedAt->format('H:i:s');
         $this->startedTz = $this->startedAt->getTimezone()->getName();

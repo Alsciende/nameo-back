@@ -23,7 +23,6 @@ class CreateAttemptModel
     /**
      * @Assert\NotBlank()
      * @Assert\Type("string")
-     * @Assert\Length(min="25",max="25")
      */
     private $presentedAt;
 

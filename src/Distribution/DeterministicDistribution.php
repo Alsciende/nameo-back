@@ -12,6 +12,16 @@ class DeterministicDistribution implements DistributionInterface
         0.1,
     ];
 
+    /**
+     * Return a distribution of $size integers between $min and $max, with a heavy presence around $center
+     *
+     * @param int $min
+     * @param int $max
+     * @param int $center
+     * @param int $size
+     *
+     * @return array
+     */
     public function boundedAndCentered(int $min, int $max, int $center, int $size)
     {
         $result = [];
@@ -26,6 +36,10 @@ class DeterministicDistribution implements DistributionInterface
             for ($i = 0; $i < round($size * self::RATIO[$part]); $i++) {
                 $result[] = $difficulties[$part];
             }
+        }
+
+        while (count($result) < $size) {
+            $result[] = $center;
         }
 
         return $result;

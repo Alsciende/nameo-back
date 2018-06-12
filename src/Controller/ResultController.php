@@ -53,7 +53,7 @@ class ResultController extends Controller
 
         $form->submit($this->getJsonRequestContent($request));
 
-        if ($form->isSubmitted()/* && $form->isValid()*/) {
+        if ($form->isSubmitted() && $form->isValid()) {
             foreach ($model->getAttempts() as $attemptModel) {
                 $attempt = new Attempt(
                     $match,
