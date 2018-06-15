@@ -49,7 +49,7 @@ class ImportCardCommand extends Command
         $index = 0;
 
         while (false !== ($line = fgetcsv($handle))) {
-            $card = new Card($line[0], $index++ % Card::MAX_DIFFICULTY);
+            $card = new Card($line[0]);
             $card->setLink($line[2]);
             $this->entityManager->persist($card);
         }

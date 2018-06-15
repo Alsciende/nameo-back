@@ -21,10 +21,10 @@ class CardSortingServiceTest extends TestCase
         parent::setUp();
 
         $this->cards = [
-            new Card('a', 0),
-            new Card('b', 0),
-            new Card('c', 2),
-            new Card('d', 1)
+            (new Card('a'))->setDifficulty(0),
+            (new Card('b'))->setDifficulty(0),
+            (new Card('c'))->setDifficulty(2),
+            (new Card('d'))->setDifficulty(1)
         ];
     }
 

@@ -6,7 +6,6 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity()
@@ -35,9 +34,6 @@ class Card
      *
      * @ORM\Column(type="string",length=50,nullable=false)
      *
-     * @Assert\NotBlank()
-     * @Assert\Length(max="50")
-     *
      * @Serializer\Expose()
      * @Serializer\Groups({"match"})
      */
@@ -51,12 +47,9 @@ class Card
     private $link;
 
     /**
-     * @var int
+     * @var int|null
      *
-     * @ORM\Column(type="integer",nullable=false)
-     *
-     * @Assert\NotBlank()
-     * @Assert\Range(min="0",max="5")
+     * @ORM\Column(type="integer",nullable=true)
      */
     private $difficulty;
 
@@ -64,12 +57,10 @@ class Card
      * Card constructor.
      *
      * @param string $title
-     * @param int    $difficulty
      */
-    public function __construct(string $title, int $difficulty = 0)
+    public function __construct(string $title)
     {
         $this->title = $title;
-        $this->difficulty = $difficulty;
     }
 
     /**
@@ -125,7 +116,7 @@ class Card
     /**
      * @return int
      */
-    public function getDifficulty(): int
+    public function getDifficulty(): ?int
     {
         return $this->difficulty;
     }
