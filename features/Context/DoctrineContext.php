@@ -8,6 +8,7 @@ use Behat\Behat\Context\Context;
 use Behat\Behat\Context\Environment\InitializedContextEnvironment;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Doctrine\Bundle\DoctrineBundle\Registry;
+use PHPUnit\Framework\Assert;
 
 class DoctrineContext implements Context
 {
@@ -48,5 +49,18 @@ class DoctrineContext implements Context
             ->doctrine
             ->getConnection($connectionName)
             ->fetchAll('SELECT * FROM ' . $tableName);
+    }
+
+    /**
+     * @Then /^The table "(?P<tableName>.*)" is not empty$/
+     */
+    public function TheTableIsNotEmpty($tableName)
+    {
+        $row = $this
+            ->doctrine
+            ->getConnection()
+            ->fetchArray('SELECT COUNT(*) FROM ' . $tableName);
+
+        Assert::assertGreaterThan(0, $row[0]);
     }
 }

@@ -9,11 +9,13 @@ use App\Entity\Attempt;
 use App\Entity\Match;
 use App\Form\Model\CreateResultModel;
 use App\Form\ResultType;
+use App\Message\CreateProjectionsMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use JMS\Serializer\ArrayTransformerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -33,12 +35,19 @@ class ResultController extends Controller
      */
     private $normalizer;
 
+    /**
+     * @var MessageBusInterface
+     */
+    private $bus;
+
     public function __construct(
         EntityManagerInterface $entityManager,
-        ArrayTransformerInterface $normalizer
+        ArrayTransformerInterface $normalizer,
+        MessageBusInterface $bus
     ) {
         $this->entityManager = $entityManager;
         $this->normalizer = $normalizer;
+        $this->bus = $bus;
     }
 
     /**
@@ -68,6 +77,7 @@ class ResultController extends Controller
             }
 
             $this->entityManager->flush();
+            $this->bus->dispatch(new CreateProjectionsMessage($match));
 
             return new JsonResponse(['success' => true]);
         }

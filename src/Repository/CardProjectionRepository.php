@@ -18,6 +18,8 @@ class CardProjectionRepository extends ServiceEntityRepository
     }
 
     /**
+     * Index: foreign key
+     *
      * @param MatchCardProjection $matchCardProjection
      *
      * @return CardProjection|null

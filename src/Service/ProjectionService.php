@@ -94,6 +94,8 @@ class ProjectionService
             $this->entityManager->persist($matchCardProjection);
             $this->applyProjection($matchCardProjection);
         }
+
+        $this->entityManager->flush();
     }
 
     public function updateCardsDifficulty()

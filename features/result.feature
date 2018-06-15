@@ -23,3 +23,5 @@ Feature: Result
     When I load the response as JSON
     Then the JSON should be valid
     And the JSON node "success" should be equal to "true"
+    And The table "match_card_projections" is not empty
+    And The table "card_projections" is not empty

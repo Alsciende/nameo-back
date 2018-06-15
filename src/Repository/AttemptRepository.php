@@ -35,6 +35,8 @@ class AttemptRepository extends ServiceEntityRepository
     }
 
     /**
+     * Index: foreign key
+     *
      * @param Match $match
      *
      * @return Attempt[]
