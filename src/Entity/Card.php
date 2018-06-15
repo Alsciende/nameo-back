@@ -9,7 +9,11 @@ use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="cards",uniqueConstraints={@ORM\UniqueConstraint(columns={"title"})})
+ * @ORM\Table(
+ *     name="cards",
+ *     uniqueConstraints={@ORM\UniqueConstraint(columns={"title"})},
+ *     indexes={@ORM\Index(name="idx_card_difficulty",columns={"difficulty"})}
+ *     )
  *
  * @Serializer\ExclusionPolicy("all")
  */

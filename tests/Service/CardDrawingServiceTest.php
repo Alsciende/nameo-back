@@ -29,11 +29,6 @@ class CardDrawingServiceTest extends TestCase
     private $repository;
 
     /**
-     * @var CardSortingService
-     */
-    private $sorting;
-
-    /**
      * @throws \ReflectionException
      */
     public function setUp()
@@ -45,23 +40,6 @@ class CardDrawingServiceTest extends TestCase
         $this->match = new Match(1, 0, 4, 2, '2017-07-14T02:40:00+00:00');
 
         $this->repository = $this->createMock(CardRepository::class);
-        $this->repository->method('findAll')->willReturn([$this->card]);
-
-        $this->sorting = $this->createMock(CardSortingService::class);
-        $this->sorting->method('sortCardsByDifficulty')->willReturn([[$this->card], []]);
-    }
-
-    /**
-     * @param int $value
-     * @return DistributionInterface|\PHPUnit\Framework\MockObject\MockObject
-     * @throws \ReflectionException
-     */
-    private function getProviderReturningValue(int $value)
-    {
-        $mock = $this->createMock(DistributionInterface::class);
-        $mock->method('boundedAndCentered')->willReturn([$value]);
-
-        return $mock;
     }
 
     /**
@@ -69,18 +47,8 @@ class CardDrawingServiceTest extends TestCase
      */
     public function testDraw()
     {
-        $classUnderTest = new CardDrawingService($this->getProviderReturningValue(0), $this->repository, $this->sorting);
-        $classUnderTest->drawCards($this->match);
+        $classUnderTest = new CardDrawingService($this->repository);
+        $classUnderTest->drawCardsFromPool($this->match, 1, [$this->card]);
         $this->assertEquals([$this->card], $this->match->getCards());
-    }
-
-    /**
-     * @throws \ReflectionException
-     */
-    public function testDrawException()
-    {
-        $classUnderTest = new CardDrawingService($this->getProviderReturningValue(1), $this->repository, $this->sorting);
-        $this->expectException(NotEnoughCardsException::class);
-        $classUnderTest->drawCards($this->match);
     }
 }

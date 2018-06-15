@@ -14,4 +14,24 @@ class CardRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Card::class);
     }
+
+    /**
+     * Index: idx_card_difficulty
+     *
+     * @return array
+     */
+    public function findAllWithoutDifficulty()
+    {
+        return $this->findBy(['difficulty' => null]);
+    }
+
+    /**
+     * Index: idx_card_difficulty
+     *
+     * @return array
+     */
+    public function findAllWithDifficulty(int $difficulty)
+    {
+        return $this->findBy(['difficulty' => $difficulty]);
+    }
 }

@@ -4,37 +4,21 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Distribution\DistributionInterface;
 use App\Entity\Card;
 use App\Entity\Match;
-use App\Exception\NotEnoughCardsException;
 use App\Repository\CardRepository;
+use App\Util\ArrayPicker;
 
 class CardDrawingService
 {
-    /**
-     * @var DistributionInterface
-     */
-    private $distribution;
-
     /**
      * @var CardRepository
      */
     private $cardRepository;
 
-    /**
-     * @var CardSortingService
-     */
-    private $sorting;
-
-    public function __construct(
-        DistributionInterface $distribution,
-        CardRepository $cardRepository,
-        CardSortingService $sorting
-    ) {
-        $this->distribution = $distribution;
+    public function __construct(CardRepository $cardRepository)
+    {
         $this->cardRepository = $cardRepository;
-        $this->sorting = $sorting;
     }
 
     /**
@@ -42,22 +26,21 @@ class CardDrawingService
      */
     public function drawCards(Match $match)
     {
-        $byDifficulty = $this->sorting->sortCardsByDifficulty($this->cardRepository->findAll());
+        $this->drawCardsFromPool($match, $match->getNbCards(), $this->cardRepository->findAllWithoutDifficulty());
+        $this->drawCardsFromPool($match, $match->getNbCards(), $this->cardRepository->findAllWithDifficulty($match->getDifficulty()));
+    }
 
-        $difficulties = $this->distribution->boundedAndCentered(
-            0,
-            Card::MAX_DIFFICULTY,
-            $match->getDifficulty(),
-            $match->getNbCards()
-        );
-
-        foreach ($difficulties as $difficulty) {
-            $count = count($byDifficulty[$difficulty]);
-            if (0 === $count) {
-                throw new NotEnoughCardsException('Not enough cards in difficulty ' . $difficulty);
+    /**
+     * @param Match  $match
+     * @param int    $max
+     * @param Card[] $pool
+     */
+    public function drawCardsFromPool(Match $match, int $max, array $pool)
+    {
+        if ($max > count($match->getCards())) {
+            while ($max > count($match->getCards()) && count($pool) > 0) {
+                $match->addCard(ArrayPicker::pickOne($pool));
             }
-            $removedCards = array_splice($byDifficulty[$difficulty], mt_rand(0, $count - 1), 1);
-            $match->addCard($removedCards[0]);
         }
     }
 }
