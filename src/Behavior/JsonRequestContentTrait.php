@@ -16,7 +16,7 @@ trait JsonRequestContentTrait
     public function getJsonRequestContent(Request $request): array
     {
         $content = json_decode($request->getContent(), true);
-        if(!is_array($content)) {
+        if (!is_array($content)) {
             $content = [];
         }
 
