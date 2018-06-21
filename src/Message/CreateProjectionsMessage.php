@@ -13,7 +13,7 @@ class CreateProjectionsMessage
     /**
      * CreateProjectionsMessage constructor.
      *
-     * @param $matchId
+     * @param Match $match
      */
     public function __construct(Match $match)
     {

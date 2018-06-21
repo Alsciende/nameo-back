@@ -1,4 +1,13 @@
 {
+    "alsciende/behat-api-context": {
+        "version": "dev-master"
+    },
+    "alsciende/behat-doctrine-context": {
+        "version": "dev-master"
+    },
+    "alsciende/behat-json-context": {
+        "version": "dev-master"
+    },
     "beberlei/assert": {
         "version": "v2.9.4"
     },

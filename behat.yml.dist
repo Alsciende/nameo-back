@@ -2,13 +2,11 @@ default:
     suites:
         default:
             contexts:
-                - App\Features\Context\ApiContext:
+                - Alsciende\Behat\ApiContext:
                     client : '@test.client'
-                - App\Features\Context\FeatureContext: ~
-                - App\Features\Context\JsonContext:
-                    jsonInspector: '@json_inspector'
+                - Alsciende\Behat\JsonContext:
                     jsonSchemaBaseUrl: 'features/json_schema/'
-                - App\Features\Context\DoctrineContext:
+                - Alsciende\Behat\DoctrineContext:
                     doctrine: '@doctrine'
 
     extensions:
