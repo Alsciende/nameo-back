@@ -2,21 +2,21 @@
 
 namespace App\Tests\Form\DataTransformer;
 
-use App\Entity\Match;
-use App\Form\DataTransformer\MatchToIdTransformer;
+use App\Entity\Game;
+use App\Form\DataTransformer\GameToIdTransformer;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
-class MatchToIdTransformerTest extends TestCase
+class GameToIdTransformerTest extends TestCase
 {
     /**
-     * @var Match
+     * @var Game
      */
-    private $match;
+    private $game;
 
     /**
-     * @var MatchToIdTransformer
+     * @var GameToIdTransformer
      */
     private $out;
 
@@ -24,21 +24,21 @@ class MatchToIdTransformerTest extends TestCase
     {
         parent::setUp();
 
-        $this->match = $this->createMock(Match::class);
-        $this->match->method('getId')->willReturn('fu');
+        $this->game = $this->createMock(Game::class);
+        $this->game->method('getId')->willReturn('fu');
 
         $map = [
-            [Match::class, 'fu', $this->match],
+            [Game::class, 'fu', $this->game],
         ];
         $em = $this->createMock(EntityManagerInterface::class);
-        $em->method('find')->with($this->equalTo(Match::class))->will($this->returnValueMap($map));
+        $em->method('find')->with($this->equalTo(Game::class))->will($this->returnValueMap($map));
 
-        $this->out = new MatchToIdTransformer($em);
+        $this->out = new GameToIdTransformer($em);
     }
 
     public function testReverseTransform()
     {
-        $this->assertEquals($this->match, $this->out->reverseTransform('fu'));
+        $this->assertEquals($this->game, $this->out->reverseTransform('fu'));
     }
 
     public function testReverseTransformEmpty()
@@ -54,7 +54,7 @@ class MatchToIdTransformerTest extends TestCase
 
     public function testTransform()
     {
-        $this->assertEquals('fu', $this->out->transform($this->match));
+        $this->assertEquals('fu', $this->out->transform($this->game));
     }
 
     public function testTransformEmpty()

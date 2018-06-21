@@ -7,23 +7,23 @@ namespace App\Entity;
 class Result
 {
     /**
-     * @var Match
+     * @var Game
      */
-    private $match;
+    private $game;
 
     /**
      * @var Attempt[]
      */
     private $attempts;
 
-    public function getMatch(): Match
+    public function getGame(): Game
     {
-        return $this->match;
+        return $this->game;
     }
 
-    public function setMatch(Match $match): self
+    public function setGame(Game $game): self
     {
-        $this->match = $match;
+        $this->game = $game;
 
         return $this;
     }

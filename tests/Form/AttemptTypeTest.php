@@ -4,12 +4,12 @@ namespace App\Tests\Form;
 
 use App\Entity\Attempt;
 use App\Entity\Card;
-use App\Entity\Match;
+use App\Entity\Game;
 use App\Form\AttemptType;
 use App\Form\CardSelectorType;
 use App\Form\DataTransformer\CardToIdTransformer;
-use App\Form\DataTransformer\MatchToIdTransformer;
-use App\Form\MatchSelectorType;
+use App\Form\DataTransformer\GameToIdTransformer;
+use App\Form\GameSelectorType;
 use App\Form\Model\CreateAttemptModel;
 use Symfony\Component\Form\PreloadedExtension;
 use Symfony\Component\Form\Test\TypeTestCase;
@@ -17,14 +17,14 @@ use Symfony\Component\Form\Test\TypeTestCase;
 class AttemptTypeTest extends TypeTestCase
 {
     /**
-     * @var Match
+     * @var Game
      */
-    private $match;
+    private $game;
 
     /**
-     * @var MatchToIdTransformer
+     * @var GameToIdTransformer
      */
-    private $matchTransformer;
+    private $gameTransformer;
 
     /**
      * @var Card
@@ -38,10 +38,10 @@ class AttemptTypeTest extends TypeTestCase
 
     protected function setUp()
     {
-        $this->match = $this->createMock(Match::class);
-        $this->matchTransformer = $this->createMock(MatchToIdTransformer::class);
-        $this->matchTransformer->method('transform')->willReturn('fu');
-        $this->matchTransformer->method('reverseTransform')->with('fu')->willReturn($this->match);
+        $this->game = $this->createMock(Game::class);
+        $this->gameTransformer = $this->createMock(GameToIdTransformer::class);
+        $this->gameTransformer->method('transform')->willReturn('fu');
+        $this->gameTransformer->method('reverseTransform')->with('fu')->willReturn($this->game);
 
         $this->card = $this->createMock(Card::class);
         $this->cardTransformer = $this->createMock(CardToIdTransformer::class);
@@ -54,7 +54,7 @@ class AttemptTypeTest extends TypeTestCase
     protected function getExtensions()
     {
         return [
-            new PreloadedExtension([new MatchSelectorType($this->matchTransformer)], []),
+            new PreloadedExtension([new GameSelectorType($this->gameTransformer)], []),
             new PreloadedExtension([new CardSelectorType($this->cardTransformer)], []),
         ];
     }
@@ -62,7 +62,7 @@ class AttemptTypeTest extends TypeTestCase
     public function testSubmitValidData()
     {
         $formData = [
-            'match'         => 'fu',
+            'game'         => 'fu',
             'step'          => 1,
             'card'          => 'bar',
             'presented_at'  => '2017-07-14T02:40:00+00:00',

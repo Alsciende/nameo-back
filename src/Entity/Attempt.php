@@ -29,12 +29,12 @@ class Attempt
     private $id;
 
     /**
-     * @var Match
+     * @var Game
      *
-     * @ORM\ManyToOne(targetEntity="Match")
-     * @ORM\JoinColumn(name="match_id", referencedColumnName="id", nullable=false)
+     * @ORM\ManyToOne(targetEntity="Game")
+     * @ORM\JoinColumn(name="game_id", referencedColumnName="id", nullable=false)
      */
-    private $match;
+    private $game;
 
     /**
      * @var int
@@ -72,9 +72,9 @@ class Attempt
      */
     private $outcome;
 
-    public function __construct(Match $match, int $step, Card $card, string $presentedAt, int $presentedFor, int $outcome)
+    public function __construct(Game $game, int $step, Card $card, string $presentedAt, int $presentedFor, int $outcome)
     {
-        $this->match = $match;
+        $this->game = $game;
         $this->step = $step;
         $this->card = $card;
         $this->presentedAt = \DateTime::createFromFormat('U', $presentedAt);
@@ -83,11 +83,11 @@ class Attempt
     }
 
     /**
-     * @return Match
+     * @return Game
      */
-    public function getMatch(): Match
+    public function getGame(): Game
     {
-        return $this->match;
+        return $this->game;
     }
 
     /**

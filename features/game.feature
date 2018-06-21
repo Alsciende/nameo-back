@@ -1,7 +1,7 @@
-Feature: Match
-  I need to be able to create a match and get its cards
+Feature: Game
+  I need to be able to create a game and get its cards
 
-  Scenario: I can post a match
+  Scenario: I can post a game
     Given the request body is:
       """
       {
@@ -12,14 +12,14 @@ Feature: Match
           "started_at": "2017-07-14T08:40:00.000+06:00"
       }
       """
-    When I request "/matches/" using HTTP POST
+    When I request "/games/" using HTTP POST
     Then the response code is 200
     When I load the response as JSON
     Then the JSON should be valid
-    And the JSON should be valid according to the schema "match.json"
+    And the JSON should be valid according to the schema "game.json"
     And the JSON array node "cards" should have 30 elements
 
-  Scenario: I can post a match
+  Scenario: I can post a game
     Given the request body is:
       """
       {
@@ -30,9 +30,9 @@ Feature: Match
           "started_at": "2017-07-14T08:40:00.000+06:00"
       }
       """
-    When I request "/matches/" using HTTP POST
+    When I request "/games/" using HTTP POST
     Then the response code is 200
     When I load the response as JSON
     Then the JSON should be valid
-    And the JSON should be valid according to the schema "match.json"
+    And the JSON should be valid according to the schema "game.json"
     And the JSON array node "cards" should have 3 elements

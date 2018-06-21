@@ -29,7 +29,7 @@ class Card
      * @ORM\GeneratedValue(strategy="UUID")
      *
      * @Serializer\Expose()
-     * @Serializer\Groups({"match"})
+     * @Serializer\Groups({"game"})
      */
     private $id;
 
@@ -39,7 +39,7 @@ class Card
      * @ORM\Column(type="string",length=50,nullable=false)
      *
      * @Serializer\Expose()
-     * @Serializer\Groups({"match"})
+     * @Serializer\Groups({"game"})
      */
     private $title;
 

@@ -4,7 +4,7 @@ namespace App\Tests\Service;
 
 use App\Distribution\DistributionInterface;
 use App\Entity\Card;
-use App\Entity\Match;
+use App\Entity\Game;
 use App\Exception\NotEnoughCardsException;
 use App\Repository\CardRepository;
 use App\Service\CardDrawingService;
@@ -19,9 +19,9 @@ class CardDrawingServiceTest extends TestCase
     private $card;
 
     /**
-     * @var Match
+     * @var Game
      */
-    private $match;
+    private $game;
 
     /**
      * @var CardRepository
@@ -37,7 +37,7 @@ class CardDrawingServiceTest extends TestCase
 
         $this->card = new Card('test');
 
-        $this->match = new Match(1, 0, 4, 2, '2017-07-14T02:40:00+00:00');
+        $this->game = new Game(1, 0, 4, 2, '2017-07-14T02:40:00+00:00');
 
         $this->repository = $this->createMock(CardRepository::class);
     }
@@ -48,7 +48,7 @@ class CardDrawingServiceTest extends TestCase
     public function testDraw()
     {
         $classUnderTest = new CardDrawingService($this->repository);
-        $classUnderTest->drawCardsFromPool($this->match, 1, [$this->card]);
-        $this->assertEquals([$this->card], $this->match->getCards());
+        $classUnderTest->drawCardsFromPool($this->game, 1, [$this->card]);
+        $this->assertEquals([$this->card], $this->game->getCards());
     }
 }

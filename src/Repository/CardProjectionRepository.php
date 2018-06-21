@@ -6,7 +6,7 @@ namespace App\Repository;
 
 use App\Entity\Card;
 use App\Entity\CardProjection;
-use App\Entity\MatchCardProjection;
+use App\Entity\GameCardProjection;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -20,13 +20,13 @@ class CardProjectionRepository extends ServiceEntityRepository
     /**
      * Index: foreign key
      *
-     * @param MatchCardProjection $matchCardProjection
+     * @param GameCardProjection $gameCardProjection
      *
      * @return CardProjection|null
      */
-    public function findByProjection(MatchCardProjection $matchCardProjection)
+    public function findByProjection(GameCardProjection $gameCardProjection)
     {
-        return $this->findOneBy(['card' => $matchCardProjection->getCard()]);
+        return $this->findOneBy(['card' => $gameCardProjection->getCard()]);
     }
 
     /**
@@ -34,7 +34,7 @@ class CardProjectionRepository extends ServiceEntityRepository
      */
     public function findAllCardsSortedByProjection()
     {
-        $dql = 'SELECT p, c, p.presentedForSum / p.nbMatches AS HIDDEN presentedForAvg FROM App:CardProjection p JOIN p.card c ORDER BY presentedForAvg ASC';
+        $dql = 'SELECT p, c, p.presentedForSum / p.nbGames AS HIDDEN presentedForAvg FROM App:CardProjection p JOIN p.card c ORDER BY presentedForAvg ASC';
         $query = $this->getEntityManager()->createQuery($dql);
         $projections = $query->getResult();
 

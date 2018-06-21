@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Form;
 
-use App\Form\Model\CreateMatchModel;
+use App\Form\Model\CreateGameModel;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class MatchType extends AbstractType
+class GameType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -27,7 +27,7 @@ class MatchType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => CreateMatchModel::class,
+            'data_class' => CreateGameModel::class,
         ]);
     }
 }

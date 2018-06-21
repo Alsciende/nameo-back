@@ -4,11 +4,11 @@ namespace App\Tests\Form;
 
 use App\Entity\Attempt;
 use App\Entity\Card;
-use App\Entity\Match;
+use App\Entity\Game;
 use App\Form\CardSelectorType;
 use App\Form\DataTransformer\CardToIdTransformer;
-use App\Form\DataTransformer\MatchToIdTransformer;
-use App\Form\MatchSelectorType;
+use App\Form\DataTransformer\GameToIdTransformer;
+use App\Form\GameSelectorType;
 use App\Form\Model\CreateAttemptModel;
 use App\Form\Model\CreateResultModel;
 use App\Form\ResultType;
@@ -18,14 +18,14 @@ use Symfony\Component\Form\Test\TypeTestCase;
 class ResultTypeTest extends TypeTestCase
 {
     /**
-     * @var Match
+     * @var Game
      */
-    private $match;
+    private $game;
 
     /**
-     * @var MatchToIdTransformer
+     * @var GameToIdTransformer
      */
-    private $matchTransformer;
+    private $gameTransformer;
 
     /**
      * @var Card
@@ -39,10 +39,10 @@ class ResultTypeTest extends TypeTestCase
 
     protected function setUp()
     {
-        $this->match = $this->createMock(Match::class);
-        $this->matchTransformer = $this->createMock(MatchToIdTransformer::class);
-        $this->matchTransformer->method('transform')->willReturn('fu');
-        $this->matchTransformer->method('reverseTransform')->willReturn($this->match);
+        $this->game = $this->createMock(Game::class);
+        $this->gameTransformer = $this->createMock(GameToIdTransformer::class);
+        $this->gameTransformer->method('transform')->willReturn('fu');
+        $this->gameTransformer->method('reverseTransform')->willReturn($this->game);
 
         $this->card = $this->createMock(Card::class);
         $this->cardTransformer = $this->createMock(CardToIdTransformer::class);
@@ -55,7 +55,7 @@ class ResultTypeTest extends TypeTestCase
     protected function getExtensions()
     {
         return [
-            new PreloadedExtension([new MatchSelectorType($this->matchTransformer)], []),
+            new PreloadedExtension([new GameSelectorType($this->gameTransformer)], []),
             new PreloadedExtension([new CardSelectorType($this->cardTransformer)], []),
         ];
     }
@@ -75,7 +75,7 @@ class ResultTypeTest extends TypeTestCase
         ];
 
         $objectToCompare = new CreateResultModel();
-        $objectToCompare->setMatch($this->match);
+        $objectToCompare->setGame($this->game);
         // $objectToCompare will retrieve data from the form submission; pass it as the second argument
         $form = $this->factory->create(ResultType::class, $objectToCompare);
 
@@ -87,7 +87,7 @@ class ResultTypeTest extends TypeTestCase
         $attempt->setStep(1);
 
         $object = new CreateResultModel();
-        $object->setMatch($this->match);
+        $object->setGame($this->game);
         $object->setAttempts([$attempt]);
 
         // submit the data to the form directly

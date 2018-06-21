@@ -10,11 +10,11 @@ use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="matches")
+ * @ORM\Table(name="games")
  *
  * @Serializer\ExclusionPolicy("all")
  */
-class Match
+class Game
 {
     /**
      * @var string
@@ -24,7 +24,7 @@ class Match
      * @ORM\GeneratedValue(strategy="UUID")
      *
      * @Serializer\Expose()
-     * @Serializer\Groups({"match"})
+     * @Serializer\Groups({"game"})
      */
     private $id;
 
@@ -88,7 +88,7 @@ class Match
      * @var ArrayCollection
      *
      * @Serializer\Expose()
-     * @Serializer\Groups({"match"})
+     * @Serializer\Groups({"game"})
      */
     private $cards;
 

@@ -8,18 +8,18 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="match_card_projections")
+ * @ORM\Table(name="game_card_projections")
  */
-class MatchCardProjection
+class GameCardProjection
 {
     /**
-     * @var Match
+     * @var Game
      *
      * @ORM\Id()
-     * @ORM\ManyToOne(targetEntity="Match")
-     * @ORM\JoinColumn(name="match_id", referencedColumnName="id", nullable=false)
+     * @ORM\ManyToOne(targetEntity="Game")
+     * @ORM\JoinColumn(name="game_id", referencedColumnName="id", nullable=false)
      */
-    private $match;
+    private $game;
 
     /**
      * @var Card
@@ -37,19 +37,19 @@ class MatchCardProjection
      */
     private $presentedForSum;
 
-    public function __construct(Match $match, Card $card)
+    public function __construct(Game $game, Card $card)
     {
-        $this->match = $match;
+        $this->game = $game;
         $this->card = $card;
         $this->presentedForSum = 0;
     }
 
     /**
-     * @return Match
+     * @return Game
      */
-    public function getMatch(): Match
+    public function getGame(): Game
     {
-        return $this->match;
+        return $this->game;
     }
 
     /**

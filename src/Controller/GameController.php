@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Behavior\JsonRequestContentTrait;
-use App\Entity\Match;
-use App\Form\MatchType;
-use App\Form\Model\CreateMatchModel;
+use App\Entity\Game;
+use App\Form\GameType;
+use App\Form\Model\CreateGameModel;
 use App\Service\CardDrawingService;
 use Doctrine\ORM\EntityManagerInterface;
 use JMS\Serializer\ArrayTransformerInterface;
@@ -18,9 +18,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route(path="/matches")
+ * @Route(path="/games")
  */
-class MatchController extends Controller
+class GameController extends Controller
 {
     use JsonRequestContentTrait;
 
@@ -55,28 +55,28 @@ class MatchController extends Controller
      */
     public function create(Request $request)
     {
-        $model = new CreateMatchModel();
-        $form = $this->createForm(MatchType::class, $model);
+        $model = new CreateGameModel();
+        $form = $this->createForm(GameType::class, $model);
 
         $form->submit($this->getJsonRequestContent($request));
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $match = new Match(
+            $game = new Game(
                 $model->getNbCards(),
                 $model->getDifficulty(),
                 $model->getNbPlayers(),
                 $model->getNbTeams(),
                 $model->getStartedAt()
             );
-            $this->entityManager->persist($match);
+            $this->entityManager->persist($game);
             $this->entityManager->flush();
 
-            $this->drawing->drawCards($match);
+            $this->drawing->drawCards($game);
 
             return new JsonResponse(
                 $this->normalizer->toArray(
-                    $match,
-                    SerializationContext::create()->setGroups(['match'])
+                    $game,
+                    SerializationContext::create()->setGroups(['game'])
                 )
             );
         }

@@ -11,7 +11,7 @@ class CreateResultModel
     /**
      * @Assert\NotBlank()
      */
-    private $match;
+    private $game;
 
     /**
      * @var CreateAttemptModel[]
@@ -23,19 +23,19 @@ class CreateResultModel
     /**
      * @return mixed
      */
-    public function getMatch()
+    public function getGame()
     {
-        return $this->match;
+        return $this->game;
     }
 
     /**
-     * @param mixed $match
+     * @param mixed $game
      *
      * @return $this
      */
-    public function setMatch($match): self
+    public function setGame($game): self
     {
-        $this->match = $match;
+        $this->game = $game;
 
         return $this;
     }

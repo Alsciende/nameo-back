@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Form\DataTransformer;
 
-use App\Entity\Match;
+use App\Entity\Game;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
-class MatchToIdTransformer implements DataTransformerInterface
+class GameToIdTransformer implements DataTransformerInterface
 {
     /**
      * @var EntityManagerInterface
@@ -22,14 +22,14 @@ class MatchToIdTransformer implements DataTransformerInterface
     }
 
     /**
-     * @param Match|null $match
+     * @param Game|null $game
      *
      * @return string
      */
-    public function transform($match)
+    public function transform($game)
     {
-        if ($match instanceof Match) {
-            return $match->getId();
+        if ($game instanceof Game) {
+            return $game->getId();
         }
 
         return '';
@@ -38,7 +38,7 @@ class MatchToIdTransformer implements DataTransformerInterface
     /**
      * @param string $id
      *
-     * @return Match|null
+     * @return Game|null
      *
      * @throws TransformationFailedException
      */
@@ -48,12 +48,12 @@ class MatchToIdTransformer implements DataTransformerInterface
             return null;
         }
 
-        $match = $this->entityManager->find(Match::class, $id);
+        $game = $this->entityManager->find(Game::class, $id);
 
-        if ($match instanceof Match) {
-            return $match;
+        if ($game instanceof Game) {
+            return $game;
         }
 
-        throw new TransformationFailedException('No match found with id ' . $id);
+        throw new TransformationFailedException('No game found with id ' . $id);
     }
 }

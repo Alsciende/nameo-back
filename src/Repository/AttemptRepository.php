@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Attempt;
-use App\Entity\Match;
+use App\Entity\Game;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -37,12 +37,12 @@ class AttemptRepository extends ServiceEntityRepository
     /**
      * Index: foreign key
      *
-     * @param Match $match
+     * @param Game $game
      *
      * @return Attempt[]
      */
-    public function findByMatch(Match $match)
+    public function findByGame(Game $game)
     {
-        return $this->findBy(['match' => $match]);
+        return $this->findBy(['game' => $game]);
     }
 }

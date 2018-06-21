@@ -2,11 +2,11 @@
 
 namespace Tests\Form;
 
-use App\Form\MatchType;
-use App\Form\Model\CreateMatchModel;
+use App\Form\GameType;
+use App\Form\Model\CreateGameModel;
 use Symfony\Component\Form\Test\TypeTestCase;
 
-class MatchTypeTest extends TypeTestCase
+class GameTypeTest extends TypeTestCase
 {
     public function testSubmitValidData()
     {
@@ -18,11 +18,11 @@ class MatchTypeTest extends TypeTestCase
             'started_at' => '2017-07-14T02:40:00+00:00',
         ];
 
-        $objectToCompare = new CreateMatchModel();
+        $objectToCompare = new CreateGameModel();
         // $objectToCompare will retrieve data from the form submission; pass it as the second argument
-        $form = $this->factory->create(MatchType::class, $objectToCompare);
+        $form = $this->factory->create(GameType::class, $objectToCompare);
 
-        $object = new CreateMatchModel();
+        $object = new CreateGameModel();
         $object->setDifficulty(2);
         $object->setNbCards(30);
         $object->setNbPlayers(6);
@@ -48,11 +48,11 @@ class MatchTypeTest extends TypeTestCase
             'started_at' => '2017-07-14T08:40:00+06:00',
         ];
 
-        $objectToCompare = new CreateMatchModel();
+        $objectToCompare = new CreateGameModel();
         // $objectToCompare will retrieve data from the form submission; pass it as the second argument
-        $form = $this->factory->create(MatchType::class, $objectToCompare);
+        $form = $this->factory->create(GameType::class, $objectToCompare);
 
-        $object = new CreateMatchModel();
+        $object = new CreateGameModel();
         $object->setDifficulty(2);
         $object->setNbCards(30);
         $object->setNbPlayers(6);

@@ -22,14 +22,14 @@ class CardToIdTransformer implements DataTransformerInterface
     }
 
     /**
-     * @param Card|null $match
+     * @param Card|null $game
      *
      * @return string
      */
-    public function transform($match)
+    public function transform($game)
     {
-        if ($match instanceof Card) {
-            return $match->getId();
+        if ($game instanceof Card) {
+            return $game->getId();
         }
 
         return '';
@@ -48,12 +48,12 @@ class CardToIdTransformer implements DataTransformerInterface
             return null;
         }
 
-        $match = $this->entityManager->find(Card::class, $id);
+        $game = $this->entityManager->find(Card::class, $id);
 
-        if ($match instanceof Card) {
-            return $match;
+        if ($game instanceof Card) {
+            return $game;
         }
 
-        throw new TransformationFailedException('No match found with id ' . $id);
+        throw new TransformationFailedException('No game found with id ' . $id);
     }
 }

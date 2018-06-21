@@ -6,7 +6,7 @@ namespace App\Controller;
 
 use App\Behavior\JsonRequestContentTrait;
 use App\Entity\Attempt;
-use App\Entity\Match;
+use App\Entity\Game;
 use App\Form\Model\CreateResultModel;
 use App\Form\ResultType;
 use App\Message\CreateProjectionsMessage;
@@ -19,7 +19,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route(path="/matches/{id}/results")
+ * @Route(path="/games/{id}/results")
  */
 class ResultController extends Controller
 {
@@ -54,10 +54,10 @@ class ResultController extends Controller
      * @param Request $request
      * @Route(path="/",methods={"POST"})
      */
-    public function create(Request $request, Match $match)
+    public function create(Request $request, Game $game)
     {
         $model = new CreateResultModel();
-        $model->setMatch($match);
+        $model->setGame($game);
         $form = $this->createForm(ResultType::class, $model);
 
         $form->submit($this->getJsonRequestContent($request));
@@ -65,7 +65,7 @@ class ResultController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             foreach ($model->getAttempts() as $attemptModel) {
                 $attempt = new Attempt(
-                    $match,
+                    $game,
                     $attemptModel->getStep(),
                     $attemptModel->getCard(),
                     $attemptModel->getPresentedAt(),
@@ -77,7 +77,7 @@ class ResultController extends Controller
             }
 
             $this->entityManager->flush();
-            $this->bus->dispatch(new CreateProjectionsMessage($match));
+            $this->bus->dispatch(new CreateProjectionsMessage($game));
 
             return new JsonResponse(['success' => true]);
         }

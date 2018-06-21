@@ -33,13 +33,13 @@ class CardProjection
      *
      * @ORM\Column(type="integer")
      */
-    private $nbMatches;
+    private $nbGames;
 
     public function __construct(Card $card)
     {
         $this->card = $card;
         $this->presentedForSum = 0;
-        $this->nbMatches = 0;
+        $this->nbGames = 0;
     }
 
     /**
@@ -61,23 +61,23 @@ class CardProjection
     /**
      * @return int
      */
-    public function getNbMatches(): int
+    public function getNbGames(): int
     {
-        return $this->nbMatches;
+        return $this->nbGames;
     }
 
     /**
-     * @param MatchCardProjection $projection
+     * @param GameCardProjection $projection
      *
      * @return $this
      */
-    public function update(MatchCardProjection $projection): self
+    public function update(GameCardProjection $projection): self
     {
         if (false === $this->card->isEqualTo($projection->getCard())) {
             throw new \LogicException('Trying to combine data from different cards.');
         }
 
-        $this->nbMatches++;
+        $this->nbGames++;
         $this->presentedForSum += $projection->getPresentedForSum();
 
         return $this;

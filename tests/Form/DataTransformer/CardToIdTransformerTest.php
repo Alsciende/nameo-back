@@ -13,7 +13,7 @@ class CardToIdTransformerTest extends TestCase
     /**
      * @var Card
      */
-    private $match;
+    private $game;
 
     /**
      * @var CardToIdTransformer
@@ -24,11 +24,11 @@ class CardToIdTransformerTest extends TestCase
     {
         parent::setUp();
 
-        $this->match = $this->createMock(Card::class);
-        $this->match->method('getId')->willReturn('fu');
+        $this->game = $this->createMock(Card::class);
+        $this->game->method('getId')->willReturn('fu');
 
         $map = [
-            [Card::class, 'fu', $this->match],
+            [Card::class, 'fu', $this->game],
         ];
         $em = $this->createMock(EntityManagerInterface::class);
         $em->method('find')->with($this->equalTo(Card::class))->will($this->returnValueMap($map));
@@ -38,7 +38,7 @@ class CardToIdTransformerTest extends TestCase
 
     public function testReverseTransform()
     {
-        $this->assertEquals($this->match, $this->out->reverseTransform('fu'));
+        $this->assertEquals($this->game, $this->out->reverseTransform('fu'));
     }
 
     public function testReverseTransformEmpty()
@@ -54,7 +54,7 @@ class CardToIdTransformerTest extends TestCase
 
     public function testTransform()
     {
-        $this->assertEquals('fu', $this->out->transform($this->match));
+        $this->assertEquals('fu', $this->out->transform($this->game));
     }
 
     public function testTransformEmpty()

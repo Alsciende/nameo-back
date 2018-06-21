@@ -4,27 +4,27 @@ declare(strict_types=1);
 
 namespace App\Message;
 
-use App\Entity\Match;
+use App\Entity\Game;
 
 class CreateProjectionsMessage
 {
-    private $matchId;
+    private $gameId;
 
     /**
      * CreateProjectionsMessage constructor.
      *
-     * @param Match $match
+     * @param Game $game
      */
-    public function __construct(Match $match)
+    public function __construct(Game $game)
     {
-        $this->matchId = $match->getId();
+        $this->gameId = $game->getId();
     }
 
     /**
      * @return mixed
      */
-    public function getMatchId()
+    public function getGameId()
     {
-        return $this->matchId;
+        return $this->gameId;
     }
 }

@@ -27,7 +27,7 @@ class CardSelectorType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'invalid_message' => 'The selected match does not exist',
+            'invalid_message' => 'The selected game does not exist',
         ]);
     }
 

@@ -4,8 +4,8 @@ namespace App\Tests\Service;
 
 use App\Entity\Attempt;
 use App\Entity\Card;
-use App\Entity\Match;
-use App\Entity\MatchCardProjection;
+use App\Entity\Game;
+use App\Entity\GameCardProjection;
 use App\Repository\AttemptRepository;
 use App\Repository\CardProjectionRepository;
 use App\Service\ProjectionService;
@@ -15,9 +15,9 @@ use PHPUnit\Framework\TestCase;
 class ProjectionServiceTest extends TestCase
 {
     /**
-     * @var Match
+     * @var Game
      */
-    private $match;
+    private $game;
 
     /**
      * @var EntityManagerInterface
@@ -41,7 +41,7 @@ class ProjectionServiceTest extends TestCase
     {
         parent::setUp();
 
-        $this->match = $this->createMock(Match::class);
+        $this->game = $this->createMock(Game::class);
 
         $this->entityManager = $this->createMock(EntityManagerInterface::class);
 
@@ -51,16 +51,16 @@ class ProjectionServiceTest extends TestCase
     }
 
     /**
-     * @param Match $match
+     * @param Game $game
      * @param Card  $card
      * @param int   $presentedFor
      * @return Attempt|\PHPUnit\Framework\MockObject\MockObject
      * @throws \ReflectionException
      */
-    private function mockAttempt(Match $match, Card $card, int $presentedFor)
+    private function mockAttempt(Game $game, Card $card, int $presentedFor)
     {
         $attempt = $this->createMock(Attempt::class);
-        $attempt->method('getMatch')->willReturn($match);
+        $attempt->method('getGame')->willReturn($game);
         $attempt->method('getCard')->willReturn($card);
         $attempt->method('getPresentedFor')->willReturn($presentedFor);
 
@@ -75,14 +75,14 @@ class ProjectionServiceTest extends TestCase
         $card = $this->createMock(Card::class);
         $card->method('getId')->willReturn('fu');
         $attempts = [
-            $this->mockAttempt($this->match, $card, 11),
-            $this->mockAttempt($this->match, $card, 6)
+            $this->mockAttempt($this->game, $card, 11),
+            $this->mockAttempt($this->game, $card, 6)
         ];
 
         $object = new ProjectionService($this->entityManager, $this->attemptRepository, $this->cardProjectionRepository);
         $projections = $object->compileAttempts($attempts);
 
-        $objectToCompare = new MatchCardProjection($this->match, $card);
+        $objectToCompare = new GameCardProjection($this->game, $card);
         $objectToCompare->setPresentedForSum(17);
         $this->assertEquals(['fu' => $objectToCompare], $projections);
     }

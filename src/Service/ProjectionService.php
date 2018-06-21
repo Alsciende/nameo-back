@@ -7,8 +7,8 @@ namespace App\Service;
 use App\Entity\Attempt;
 use App\Entity\Card;
 use App\Entity\CardProjection;
-use App\Entity\Match;
-use App\Entity\MatchCardProjection;
+use App\Entity\Game;
+use App\Entity\GameCardProjection;
 use App\Repository\AttemptRepository;
 use App\Repository\CardProjectionRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -50,18 +50,18 @@ class ProjectionService
     /**
      * @param Attempt[] $attempts
      *
-     * @return MatchCardProjection[]
+     * @return GameCardProjection[]
      */
     public function compileAttempts(array $attempts): array
     {
-        /** @var MatchCardProjection[] $projections */
+        /** @var GameCardProjection[] $projections */
         $projections = [];
 
         foreach ($attempts as $attempt) {
             $cardId = $attempt->getCard()->getId();
 
             if (!isset($projections[$cardId])) {
-                $projections[$cardId] = new MatchCardProjection($attempt->getMatch(), $attempt->getCard());
+                $projections[$cardId] = new GameCardProjection($attempt->getGame(), $attempt->getCard());
             }
 
             $projections[$cardId]->update($attempt);
@@ -71,28 +71,28 @@ class ProjectionService
     }
 
     /**
-     * @param MatchCardProjection $matchCardProjection
+     * @param GameCardProjection $gameCardProjection
      */
-    public function applyProjection(MatchCardProjection $matchCardProjection)
+    public function applyProjection(GameCardProjection $gameCardProjection)
     {
-        $cardProjection = $this->cardProjectionRepository->findByProjection($matchCardProjection);
+        $cardProjection = $this->cardProjectionRepository->findByProjection($gameCardProjection);
 
         if (!$cardProjection instanceof CardProjection) {
-            $cardProjection = new CardProjection($matchCardProjection->getCard());
+            $cardProjection = new CardProjection($gameCardProjection->getCard());
             $this->entityManager->persist($cardProjection);
         }
 
-        $cardProjection->update($matchCardProjection);
+        $cardProjection->update($gameCardProjection);
     }
 
     /**
-     * @param Match $match
+     * @param Game $game
      */
-    public function createProjections(Match $match)
+    public function createProjections(Game $game)
     {
-        foreach ($this->compileAttempts($this->attemptRepository->findByMatch($match)) as $matchCardProjection) {
-            $this->entityManager->persist($matchCardProjection);
-            $this->applyProjection($matchCardProjection);
+        foreach ($this->compileAttempts($this->attemptRepository->findByGame($game)) as $gameCardProjection) {
+            $this->entityManager->persist($gameCardProjection);
+            $this->applyProjection($gameCardProjection);
         }
 
         $this->entityManager->flush();
