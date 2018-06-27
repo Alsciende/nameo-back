@@ -44,13 +44,6 @@ class Card
     private $title;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(type="string",nullable=true)
-     */
-    private $link;
-
-    /**
      * @var int|null
      *
      * @ORM\Column(type="integer",nullable=true)
@@ -93,26 +86,6 @@ class Card
     public function setTitle(string $title): self
     {
         $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getLink(): ?string
-    {
-        return $this->link;
-    }
-
-    /**
-     * @param null|string $link
-     *
-     * @return $this
-     */
-    public function setLink(?string $link): self
-    {
-        $this->link = $link;
 
         return $this;
     }

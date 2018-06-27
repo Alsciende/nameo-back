@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command;
 
 use App\Entity\Card;
@@ -16,7 +18,7 @@ use Symfony\Component\DomCrawler\Crawler;
  *
  * @author Alsciende <alsciende@icloud.com>
  */
-class GoogleSuggestionsCommand extends Command
+class ImportWikipediaCommand extends Command
 {
     /**
      * @var EntityManagerInterface
@@ -43,9 +45,8 @@ class GoogleSuggestionsCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('app:google-suggestions')
-            ->setDescription('Check card title against Google suggestion API')
-            ->setHelp('This command prints all cards for which Google suggets a different name');
+            ->setName('app:import:wikipedia')
+            ->setDescription('Import Wikipedia popularity data');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -61,51 +62,51 @@ class GoogleSuggestionsCommand extends Command
     private function check(Card $card)
     {
         $pageSearch = $this->getPageSearch($card);
-        if ($pageSearch === null) {
+        if (null === $pageSearch) {
             $this->output->writeln('<error>' . $card->getTitle() . ',NULL,NULL</error>');
         } else {
-            $pageViews = $this->getPageViews($pageSearch['pageid']);
-            $this->output->writeln($card->getTitle() . ',' . $pageSearch['title'] . ',' . $pageViews);
+            $pageInfo = $this->getPageInfo($pageSearch['pageid']);
+            $pageViews = $this->getPageViews($pageInfo);
+            $this->output->writeln($card->getTitle() . ',' . $pageSearch['title'] . ',' . $pageViews . ',' . $pageInfo['fullurl']);
         }
     }
 
-    private function getPageViews($pageId): string
+    private function getPageViews(array $pageInfo): string
     {
-        $crawler = new Crawler($this->client->get($this->getPageInfo($pageId))->getBody()->getContents());
+        $infoUrl = str_replace('action=edit', 'action=info', $pageInfo['editurl']);
+        $crawler = new Crawler($this->client->get($infoUrl)->getBody()->getContents());
         $crawler = $crawler->filter('#mw-pvi-month-count .mw-pvi-month');
 
         return $crawler->html();
     }
 
-    private function getPageInfo(int $pageId)
+    private function getPageInfo(int $pageId): array
     {
         $url = 'https://fr.wikipedia.org/w/api.php?' . http_build_query([
-                'action'  => 'query',
+                'action' => 'query',
                 'pageids' => $pageId,
-                "prop"    => "info",
-                "inprop"  => "url",
-                "format"  => "json",
+                'prop' => 'info',
+                'inprop' => 'url',
+                'format' => 'json',
             ]);
 
         $request = new Request('GET', $url);
-        $client = new Client();
+
         $response = $this->client->send($request);
         $json = (string) $response->getBody();
         $content = \GuzzleHttp\json_decode($json, true);
 
-        $editUrl = $content['query']['pages'][$pageId]['editurl'];
-
-        return str_replace('action=edit', 'action=info', $editUrl);
+        return $content['query']['pages'][$pageId];
     }
 
     private function getPageSearch(Card $card): ?array
     {
         $url = 'https://fr.wikipedia.org/w/api.php?' . http_build_query([
-                'action'   => 'query',
-                'list'     => "search",
+                'action' => 'query',
+                'list' => 'search',
                 'srsearch' => $card->getTitle(),
-                "utf8"     => "",
-                "format"   => "json",
+                'utf8' => '',
+                'format' => 'json',
             ]);
 
         $request = new Request('GET', $url);
@@ -113,7 +114,7 @@ class GoogleSuggestionsCommand extends Command
         $json = (string) $response->getBody();
         $content = \GuzzleHttp\json_decode($json, true);
 
-        if ($content['batchcomplete'] !== '') {
+        if ('' !== $content['batchcomplete']) {
             throw new \RuntimeException('batchcomplete not empty for ' . $card->getTitle());
         }
 
@@ -126,5 +127,4 @@ class GoogleSuggestionsCommand extends Command
 
         return $match;
     }
-
 }
