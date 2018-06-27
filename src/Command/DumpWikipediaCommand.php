@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Entity\Card;
+use App\Entity\Link;
 use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
@@ -18,7 +19,7 @@ use Symfony\Component\DomCrawler\Crawler;
  *
  * @author Alsciende <alsciende@icloud.com>
  */
-class ImportWikipediaCommand extends Command
+class DumpWikipediaCommand extends Command
 {
     /**
      * @var EntityManagerInterface
@@ -45,8 +46,8 @@ class ImportWikipediaCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('app:import:wikipedia')
-            ->setDescription('Import Wikipedia popularity data');
+            ->setName('app:dump:wikipedia')
+            ->setDescription('Dump Wikipedia popularity data');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -61,14 +62,10 @@ class ImportWikipediaCommand extends Command
 
     private function check(Card $card)
     {
-        $pageSearch = $this->getPageSearch($card);
-        if (null === $pageSearch) {
-            $this->output->writeln('<error>' . $card->getTitle() . ',NULL,NULL</error>');
-        } else {
-            $pageInfo = $this->getPageInfo($pageSearch['pageid']);
-            $pageViews = $this->getPageViews($pageInfo);
-            $this->output->writeln($card->getTitle() . ',' . $pageSearch['title'] . ',' . $pageViews . ',' . $pageInfo['fullurl']);
-        }
+        $link = $this->entityManager->getRepository(Link::class)->findOneBy(['card' => $card, 'site' => Link::SITE_WIKIPEDIA]);
+        $pageInfo = $this->getPageInfo($link->getExternalId());
+        $pageViews = $this->getPageViews($pageInfo);
+        $this->output->writeln($card->getTitle() . ',' . $link->getTitle() . ',' . $pageViews . ',' . $pageInfo['fullurl']);
     }
 
     private function getPageViews(array $pageInfo): string
@@ -83,48 +80,17 @@ class ImportWikipediaCommand extends Command
     private function getPageInfo(int $pageId): array
     {
         $url = 'https://fr.wikipedia.org/w/api.php?' . http_build_query([
-                'action' => 'query',
+                'action'  => 'query',
                 'pageids' => $pageId,
-                'prop' => 'info',
-                'inprop' => 'url',
-                'format' => 'json',
+                'prop'    => 'info',
+                'inprop'  => 'url',
+                'format'  => 'json',
             ]);
 
-        $request = new Request('GET', $url);
-
-        $response = $this->client->send($request);
+        $response = $this->client->get($url);
         $json = (string) $response->getBody();
         $content = \GuzzleHttp\json_decode($json, true);
 
         return $content['query']['pages'][$pageId];
-    }
-
-    private function getPageSearch(Card $card): ?array
-    {
-        $url = 'https://fr.wikipedia.org/w/api.php?' . http_build_query([
-                'action' => 'query',
-                'list' => 'search',
-                'srsearch' => $card->getTitle(),
-                'utf8' => '',
-                'format' => 'json',
-            ]);
-
-        $request = new Request('GET', $url);
-        $response = $this->client->send($request);
-        $json = (string) $response->getBody();
-        $content = \GuzzleHttp\json_decode($json, true);
-
-        if ('' !== $content['batchcomplete']) {
-            throw new \RuntimeException('batchcomplete not empty for ' . $card->getTitle());
-        }
-
-        $search = $content['query']['search'];
-        if (empty($search)) {
-            return null;
-        }
-
-        $match = reset($search);
-
-        return $match;
     }
 }
